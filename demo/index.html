@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Paje</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="libs/skeleton/css/normalize.css">
+  <link rel="stylesheet" href="libs/skeleton/css/skeleton.css">
+
+  <script src="libs/live/index.js"></script>
+  <script src="libs/jquery/dist/jquery.min.js"></script>
+  <style>
+  .section {
+    margin: 2rem 0;
+  }
+
+  .doublebutton {
+    width: 158px;
+    display: inline-block;
+    text-align: center;
+  }
+  #paybutton {
+    display: block;
+    width: 160px;
+    line-height: 60px;
+    height: 60px;
+    font-size: 24px;
+    margin: 10px auto;
+  }
+
+@media (max-width:550px) {
+  #orders .eight {
+      width: 130px;
+    }
+  #orders .three {
+      width: 90px;
+    }
+  #orders .one {
+      width: 100px;
+    }
+  #orders input {
+    width: 90%;
+  }
+}
+</style>
+
+</head>
+<body>
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="twelve columns">
+          <h2>WebPayments</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="twelve columns" id="instruments">
+          <h4>Instruments</h4>
+          <div class="doublebutton"><button class="button-primary">mastercard</button></div>
+          <div class="doublebutton"><button>discover</button></div>
+          <div class="doublebutton"><button>unionpay</button></div>
+          <div class="doublebutton"><button>maestro</button></div>
+          <div class="doublebutton"><button>diners</button></div>
+          <div class="doublebutton"><button>amex</button></div>
+          <div class="doublebutton"><button class="button-primary">visa</button></div>
+          <div class="doublebutton"><button>jcb</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="orders">
+    <div class="container">
+      <div class="row">
+        <div class="twelve columns">
+          <h4>Order</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="eight columns">
+            <label for="total_label">total label</label>
+            <input class="u-full-width" type="text" placeholder="Total" id="total_label" value="Total">
+        </div>
+        <div class="three columns">
+            <label for="total_label">total value</label>
+            <input class="u-full-width" type="number" placeholder="32.00" id="total_value" value="32.00">
+        </div>
+        <div class="one columns">
+          <label>&nbsp;</label>
+          <button class="button-primary" onclick="addOrderItem();">add</button>
+        </div>
+      </div>
+      <div id="order_items"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="twelve columns">
+          <a class="button button-primary" id="paybutton" href="javascript:action()">pay</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="twelve columns">
+          <h5>result</h5>
+          <pre><code id="result"></code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<script>
+  function addOrderItem() {
+    $("#order_items").append('<div class="row"><div class="eight columns"><input class="u-full-width" type="text" placeholder="Label" id="label"></div><div class="three columns"><input class="u-full-width" type="number" placeholder="32.00" id="value"></div><div class="one columns"><button onclick="removeThisItem(this);">remove</button></div></div>');
+  }
+
+  function removeThisItem(ev) {
+    var obj = $(ev.parentNode.parentNode);
+    obj.remove();
+  }
+
+  function action() {
+    if (!window.PaymentRequest) {
+      return;
+    }
+
+    // Supported payment methods
+    var methods = [];
+    $("#instruments div button.button-primary").each(function(idx) {
+      methods.push($(this).text());
+    });
+    var supportedInstruments = [{ supportedMethods: methods }];
+
+    // Checkout details
+    var di = [];
+    $("#order_items").each(function(idx) {
+      var v = $(this).find("#value").val();
+      if (v === undefined) return;
+      di.push({label: $(this).find("#label").val(),
+              amount: { currency: 'USD', value: v}});
+    });
+
+    var details = {
+      displayItems: di,
+      total: {
+        label: $("#total_label").val(),
+        amount: { currency: 'USD', value : $("#total_value").val() }
+      }
+    };
+
+    // 1. Create a `PaymentRequest` instance
+    var request = new PaymentRequest(supportedInstruments, details);
+
+    // 2. Show the native UI with `.show()`
+    request.show()
+    // 3. Process the payment
+    .then(result => {
+      var data = {};
+      data.methodName = result.methodName;
+      data.details    = result.details;
+
+      $("#result").text(JSON.stringify(data, null, 2));
+      return result.complete('success');
+    })
+    .catch(() => {
+    });
+  };
+  //action();
+
+$(() => {
+  $("#instruments div button").click((ev) => {
+    $(ev.target).toggleClass("button-primary");
+  });
+});
+</script>
+</body>
+</html>
