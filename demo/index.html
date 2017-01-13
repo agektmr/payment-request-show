@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>Paje</title>
+  <title>Payment Request Interactive Demo</title>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="libs/skeleton/css/normalize.css">
   <link rel="stylesheet" href="libs/skeleton/css/skeleton.css">
 
-  <script src="libs/live/index.js"></script>
   <script src="libs/jquery/dist/jquery.min.js"></script>
   <style>
   .section {
@@ -53,7 +52,7 @@
     <div class="container">
       <div class="row">
         <div class="twelve columns">
-          <h2>WebPayments</h2>
+          <h2>Payment Request API</h2>
         </div>
       </div>
     </div>
@@ -63,7 +62,7 @@
     <div class="container">
       <div class="row">
         <div class="twelve columns" id="instruments">
-          <h4>Instruments</h4>
+          <h4>Payment Methods</h4>
           <div class="doublebutton"><button class="button-primary">mastercard</button></div>
           <div class="doublebutton"><button>discover</button></div>
           <div class="doublebutton"><button>unionpay</button></div>
@@ -72,6 +71,7 @@
           <div class="doublebutton"><button>amex</button></div>
           <div class="doublebutton"><button class="button-primary">visa</button></div>
           <div class="doublebutton"><button>jcb</button></div>
+          <div class="doublebutton"><button>mir</button></div>
         </div>
       </div>
     </div>
@@ -81,24 +81,42 @@
     <div class="container">
       <div class="row">
         <div class="twelve columns">
-          <h4>Order</h4>
+          <h4>Total Item</h4>
         </div>
       </div>
       <div class="row">
-        <div class="eight columns">
-            <label for="total_label">total label</label>
-            <input class="u-full-width" type="text" placeholder="Total" id="total_label" value="Total">
+        <div class="seven columns">
+              <label for="total_label">Label</label>
         </div>
         <div class="three columns">
-            <label for="total_label">total value</label>
-            <input class="u-full-width" type="number" placeholder="32.00" id="total_value" value="32.00">
+              <label for="total_value">Amount</label>
         </div>
-        <div class="one columns">
-          <label>&nbsp;</label>
+        <div class="two columns">
+              <label for="total_currency">Currency</label>
+        </div>
+      </div>
+      <span id="total_item">
+        <div id="display-item" class="row">
+          <div class="seven columns">
+              <input class="u-full-width" type="text" placeholder="Item Label" id="label" value="Total">
+          </div>
+          <div class="three columns">
+              <input class="u-full-width" type="number" placeholder="32.00" id="value" value="32.00">
+          </div>
+          <div class="two columns">
+              <input class="u-full-width" type="text" placeholder="USD" id="currency" value="USD">
+          </div>
+        </div>
+      </span>
+      <div class="row">
+        <div class="three columns">
+          <h4>Display Items</h4>
+        </div>
+        <div class="nine columns">
           <button class="button-primary" onclick="addOrderItem();">add</button>
         </div>
       </div>
-      <div id="order_items"></div>
+      <span id="order_items"></span>
     </div>
   </div>
 
@@ -111,7 +129,7 @@
       </div>
       <div class="row">
         <div class="twelve columns">
-          <h5>result</h5>
+          <h5>Result</h5>
           <pre><code id="result"></code></pre>
         </div>
       </div>
@@ -120,8 +138,10 @@
 
 
 <script>
+  var displayItemTemplate;
+
   function addOrderItem() {
-    $("#order_items").append('<div class="row"><div class="eight columns"><input class="u-full-width" type="text" placeholder="Label" id="label"></div><div class="three columns"><input class="u-full-width" type="number" placeholder="32.00" id="value"></div><div class="one columns"><button onclick="removeThisItem(this);">remove</button></div></div>');
+    $("#order_items").append(displayItemTemplate);
   }
 
   function removeThisItem(ev) {
@@ -131,7 +151,7 @@
 
   function action() {
     if (!window.PaymentRequest) {
-      return;
+     return;
     }
 
     // Supported payment methods
@@ -143,18 +163,20 @@
 
     // Checkout details
     var di = [];
-    $("#order_items").each(function(idx) {
+    $("#order_items").children('#display-item').each(function(idx) {
       var v = $(this).find("#value").val();
       if (v === undefined) return;
-      di.push({label: $(this).find("#label").val(),
-              amount: { currency: 'USD', value: v}});
+      di.push({
+          label: $(this).find("#label").val(),
+          amount: { currency: $(this).find("#currency").val(), value: v}});
     });
 
     var details = {
       displayItems: di,
       total: {
-        label: $("#total_label").val(),
-        amount: { currency: 'USD', value : $("#total_value").val() }
+        label: $("#total_item").find("#label").val(),
+        amount: { currency: $("#total_item").find("#currency").val(),
+                  value : $("#total_item").find("#value").val() }
       }
     };
 
@@ -175,12 +197,14 @@
     .catch(() => {
     });
   };
-  //action();
 
 $(() => {
   $("#instruments div button").click((ev) => {
     $(ev.target).toggleClass("button-primary");
-  });
+  })
+
+  displayItemTemplate = document.getElementById("total_item")
+      .innerHTML.replace('value="Total"', 'value="Item"');
 });
 </script>
 </body>

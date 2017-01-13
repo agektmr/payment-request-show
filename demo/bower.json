@@ -1,8 +1,8 @@
 {
-  "name": "Payment Request demo",
+  "name": "payment-request-demo",
   "homepage": "https://github.com/madmath/payment-request-show",
   "authors": [],
-  "description": "",
+  "description": "Interactive demo of Payment Request API",
   "main": "",
   "private": true,
   "ignore": [
@@ -15,7 +15,6 @@
   ],
   "dependencies": {
     "skeleton": "skeleton-css#^2.0.4",
-    "jquery": "^3.1.1",
-    "live": "http://livejs.com/live.js"
+    "jquery": "^3.1.1"
   }
 }
