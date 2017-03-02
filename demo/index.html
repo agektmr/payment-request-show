@@ -123,6 +123,20 @@
   <div class="section">
     <div class="container">
       <div class="row">
+        <div class="twelve columns" id="options">
+          <h4>Options</h4>
+          <div class="doublebutton"><button class="button-primary">Name</button></div>
+          <div class="doublebutton"><button class="button-primary">Phone</button></div>
+          <div class="doublebutton"><button class="button-primary">Email</button></div>
+          <div class="doublebutton"><button class="button-primary">Shipping</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="row">
         <div class="twelve columns">
           <a class="button button-primary" id="paybutton" href="javascript:action()">pay</a>
         </div>
@@ -180,8 +194,21 @@
       }
     };
 
+    var options = {};
+    $("#options div button.button-primary").each(function(idx) {
+      var option_text = $(this).text();
+      if (option_text == "Name")
+        options.requestPayerName = true;
+      if (option_text == "Phone")
+        options.requestPayerPhone = true;
+      if (option_text == "Email")
+        options.requestPayerEmail = true;
+      if (option_text == "Shipping")
+        options.requestShipping = true;
+    });
+
     // 1. Create a `PaymentRequest` instance
-    var request = new PaymentRequest(supportedInstruments, details);
+    var request = new PaymentRequest(supportedInstruments, details, options);
 
     // 2. Show the native UI with `.show()`
     request.show()
@@ -200,6 +227,10 @@
 
 $(() => {
   $("#instruments div button").click((ev) => {
+    $(ev.target).toggleClass("button-primary");
+  })
+
+  $("#options div button").click((ev) => {
     $(ev.target).toggleClass("button-primary");
   })
 
