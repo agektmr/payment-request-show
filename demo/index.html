@@ -125,15 +125,29 @@
       <div class="row">
         <div class="twelve columns" id="options">
           <h4>Options</h4>
-          <div class="doublebutton"><button class="button-primary">Name</button></div>
-          <div class="doublebutton"><button class="button-primary">Phone</button></div>
-          <div class="doublebutton"><button class="button-primary">Email</button></div>
-          <div class="doublebutton"><button class="button-primary">Shipping</button></div>
+          <div class="options-request">
+            <div class="doublebutton"><button class="button-primary">Name</button></div>
+            <div class="doublebutton"><button class="button-primary">Phone</button></div>
+            <div class="doublebutton"><button class="button-primary">Email</button></div>
+            <div class="doublebutton"><button class="button-primary">Shipping</button></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="four columns">
+          <h4>Shipping Options</h4>
+        </div>
+        <div class="eight columns">
+          <button class="button-primary" onclick="addShippingOption();">add</button>
+        </div>
+      </div>
+      <span id="shipping-options"></span>
+    </div>
+  </div>
   <div class="section">
     <div class="container">
       <div class="row">
@@ -153,9 +167,30 @@
 
 <script>
   var displayItemTemplate;
+  var currentShippingOptionID = 0;
 
   function addOrderItem() {
     $("#order_items").append(displayItemTemplate);
+  }
+
+  function addShippingOption() {
+    var element = $(`
+      <div class="shipping-option" class="row">
+        <div class="three columns">
+            <input class="u-full-width shipping-option-id" type="text" placeholder="ID">
+        </div>
+        <div class="four columns">
+            <input class="u-full-width shipping-option-label" type="text" placeholder="label">
+        </div>
+        <div class="three columns">
+            <input class="u-full-width shipping-option-amount" type="number" placeholder="2.00" value="2.00">
+        </div>
+        <div class="doublebutton"><button class="button-primary" onclick="$(this).toggleClass('button-primary');">Selected</button></div>
+      </div>
+    `);
+    element.find(".shipping-option-id").attr("value", ++currentShippingOptionID);
+    element.find(".shipping-option-label").attr("value", "shipping-option-label-" + currentShippingOptionID);
+    $("#shipping-options").append(element);
   }
 
   function removeThisItem(ev) {
@@ -185,8 +220,26 @@
           amount: { currency: $(this).find("#currency").val(), value: v}});
     });
 
+    var shipping_options = [];
+    $("#shipping-options").children(".shipping-option").each(function(idx) {
+      var option_id = $(this).find(".shipping-option-id").val();
+      var option_label = $(this).find(".shipping-option-label").val();
+      var option_amount = $(this).find(".shipping-option-amount").val();
+      var option_selected = $(this).find("button").hasClass("button-primary");
+
+      shipping_options.push({
+        id: option_id,
+        label: option_label,
+        amount: {
+          currency: $("#currency").val(), value: option_amount
+        },
+        selected: option_selected
+      })
+    });
+
     var details = {
       displayItems: di,
+      shippingOptions: shipping_options,
       total: {
         label: $("#total_item").find("#label").val(),
         amount: { currency: $("#total_item").find("#currency").val(),
@@ -195,7 +248,7 @@
     };
 
     var options = {};
-    $("#options div button.button-primary").each(function(idx) {
+    $("#options .options-request button.button-primary").each(function(idx) {
       var option_text = $(this).text();
       if (option_text == "Name")
         options.requestPayerName = true;
@@ -228,11 +281,11 @@
 $(() => {
   $("#instruments div button").click((ev) => {
     $(ev.target).toggleClass("button-primary");
-  })
+  });
 
   $("#options div button").click((ev) => {
     $(ev.target).toggleClass("button-primary");
-  })
+  });
 
   displayItemTemplate = document.getElementById("total_item")
       .innerHTML.replace('value="Total"', 'value="Item"');
