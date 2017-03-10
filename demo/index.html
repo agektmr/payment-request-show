@@ -141,7 +141,15 @@
         <div class="four columns">
           <h4>Shipping Options</h4>
         </div>
-        <div class="eight columns">
+        <div class="three columns">
+          <select id="shipping-type">
+            <option value="shipping">shipping</option>
+            <option value="delivery">delivery</option>
+            <option value="pickup">pickup</option>
+            <option value="invalid_type">invalid_type</option>
+          </select>
+        </div>
+        <div class="five columns">
           <button class="button-primary" onclick="addShippingOption();">add</button>
         </div>
       </div>
@@ -247,7 +255,11 @@
       }
     };
 
-    var options = {};
+    var shipping_type = document.getElementById("shipping-type");
+    var options = {
+      shippingType: shipping_type.options[shipping_type.selectedIndex].value
+    };
+
     $("#options .options-request button.button-primary").each(function(idx) {
       var option_text = $(this).text();
       if (option_text == "Name")
