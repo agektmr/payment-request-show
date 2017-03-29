@@ -30,6 +30,11 @@
     margin: 10px auto;
   }
 
+  #paybutton:disabled, #paybutton:disabled:hover {
+    opacity: 0.2;
+    background-color: rgb(0, 0, 0);
+  }
+
 @media (max-width:550px) {
   #orders .eight {
       width: 130px;
@@ -160,7 +165,7 @@
     <div class="container">
       <div class="row">
         <div class="twelve columns">
-          <a class="button button-primary" id="paybutton" href="javascript:action()">pay</a>
+          <button disabled class="button button-primary" id="paybutton" onclick="onPayButtonClick()">pay</a>
         </div>
       </div>
       <div class="row">
@@ -206,11 +211,7 @@
     obj.remove();
   }
 
-  function action() {
-    if (!window.PaymentRequest) {
-     return;
-    }
-
+  function onPayButtonClick() {
     // Supported payment methods
     var methods = [];
     $("#instruments div button.button-primary").each(function(idx) {
@@ -291,6 +292,13 @@
   };
 
 $(() => {
+  if (!window.PaymentRequest) {
+    console.warn('Sorry - This demo requires the PaymentRequest API which isn\'t available in this browser');
+    return;
+  }
+
+  $("#paybutton")[0].disabled = false;
+
   $("#instruments div button").click((ev) => {
     $(ev.target).toggleClass("button-primary");
   });
