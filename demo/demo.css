@@ -1,0 +1,14 @@
+.hide {
+  display: none;
+}
+
+.supported-warning {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.demo-container.is-not-supported {
+  opacity: 0.2;
+  touch-action: none;
+  pointer-events: none;
+}

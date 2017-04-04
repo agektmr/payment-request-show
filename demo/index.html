@@ -1,3 +1,193 @@
+
+<!doctype html>
+<!--
+  Material Design Lite
+  Copyright 2015 Google Inc. All rights reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A site that demonstrates the Payment Request API.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+    <title>Payment Request API | Demo &amp; Info</title>
+
+
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-red.min.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="demo.css">
+  </head>
+  <body>
+    <div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
+      <header class="demo-header mdl-layout__header mdl-layout__header--scroll mdl-color--grey-100 mdl-color-text--grey-800">
+        <div class="mdl-layout__header-row">
+          <span class="mdl-layout-title">PaymentRequest.show()</span>
+          <div class="mdl-layout-spacer"></div>
+        </div>
+      </header>
+      <div class="demo-ribbon"></div>
+      <main class="demo-main mdl-layout__content">
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+          <div class="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
+            <section class="hide supported-warning">
+              <h4>Sorry - Not Available on this Browser</h4>
+              <p>Unfortunately the PaymentRequest API isn't available in your browser. Why not try this on Chrome for Android.</p>
+            </section>
+
+            <noscript>
+              <section class="supported-warning">
+                <h4>Sorry - JavaScript is Required</h4>
+                <p>Unfortunately the PaymentRequest API requires JavaScript to work correctly.</p>
+              </section>
+            </noscript>
+
+            <section class="demo-container is-not-supported">
+              <h3>Payment Request API Demo</h3>
+
+              <h5>Select Supported Payment Methods</h5>
+              <p>TODO: Explain what toggling these on and off will do.....</p>
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-mastercard">
+                <input type="checkbox" id="checkbox-mastercard" class="mdl-checkbox__input" checked>
+                <span class="mdl-checkbox__label">mastercard</span>
+              </label>
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-discover">
+                <input type="checkbox" id="checkbox-discover" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">discover</span>
+              </label>
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-unionpay">
+                <input type="checkbox" id="checkbox-unionpay" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">unionpay</span>
+              </label>
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-maestro">
+                <input type="checkbox" id="checkbox-maestro" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">maestro</span>
+              </label>
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-diners">
+                <input type="checkbox" id="checkbox-diners" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">diners</span>
+              </label>
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-amex">
+                <input type="checkbox" id="checkbox-amex" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">amex</span>
+              </label>
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-visa">
+                <input type="checkbox" id="checkbox-visa" class="mdl-checkbox__input" checked>
+                <span class="mdl-checkbox__label">visa</span>
+              </label>
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-jcb">
+                <input type="checkbox" id="checkbox-jcb" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">jcb</span>
+              </label>
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-mir">
+                <input type="checkbox" id="checkbox-mir" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">mir</span>
+              </label>
+
+              <h5>Display Items</h5>
+              <p>TODO: Explain this is the individual items.</p>
+              <p>TODO: Should this include the shipping?</p>
+
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add-display-item">
+                Add Display Item
+              </button>
+
+
+              <div class="display-items-container">
+
+              </div>
+
+              <h5>Summary Item</h5>
+              <p>TODO: Explain this is normally the total.</p>
+              <p>TODO: Explain that the values don't have to add up.</p>
+
+              <div class="mdl-grid mdl-grid--no-spacing">
+                <div class="mdl-cell mdl-cell--6-col">
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="summary-text" value="Total">
+                    <label class="mdl-textfield__label" for="summary-text">Label</label>
+                  </div>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col">
+                  <div class="mdl-textfield mdl-js-textfield  mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="summary-amount" value="32">
+                    <label class="mdl-textfield__label" for="summary-amount">Amount</label>
+                    <span class="mdl-textfield__error">The value must be a number.</span>
+                  </div>
+                </div>
+                <div class="mdl-cell mdl-cell--2-col">
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="summary-currency" value="USD">
+                    <label class="mdl-textfield__label" for="summary-currency">Currency</label>
+                  </div>
+                </div>
+              </div>
+
+              <h5>Options</h5>
+              <p>TODO: Explain this is for getting user information.</p>
+
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-buyer-name">
+                <input type="checkbox" id="checkbox-buyer-name" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">Buyer Name</span>
+              </label>
+
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-buyer-phone">
+                <input type="checkbox" id="checkbox-buyer-phone" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">Buyer Phone</span>
+              </label>
+
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-buyer-email">
+                <input type="checkbox" id="checkbox-buyer-email" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">Buyer Email</span>
+              </label>
+
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-shipping">
+                <input type="checkbox" id="checkbox-shipping" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">Shipping</span>
+              </label>
+
+              <h5>Shipping Options</h5>
+              <p>TODO: Explain this information is used if the shipping option
+              above is selected.</p>
+
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add-shipping-opt">
+                Add Shipping Option
+              </button>
+            </section>
+          </div>
+        </div>
+        <footer class="demo-footer mdl-mini-footer">
+          <div class="mdl-mini-footer--left-section">
+            <ul class="mdl-mini-footer--link-list">
+              <li><a href="https://github.com/madmath/payment-request-show">Github</a></li>
+            </ul>
+          </div>
+        </footer>
+      </main>
+    </div>
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="demo.js"></script>
+  </body>
+</html>
+
+<!--
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,11 +196,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="libs/skeleton/css/normalize.css">
-  <link rel="stylesheet" href="libs/skeleton/css/skeleton.css">
 
-  <script src="libs/jquery/dist/jquery.min.js"></script>
   <style>
   .section {
     margin: 2rem 0;
@@ -63,15 +249,7 @@
       <div class="row">
         <div class="twelve columns" id="instruments">
           <h4>Payment Methods</h4>
-          <div class="doublebutton"><button class="button-primary">mastercard</button></div>
-          <div class="doublebutton"><button>discover</button></div>
-          <div class="doublebutton"><button>unionpay</button></div>
-          <div class="doublebutton"><button>maestro</button></div>
-          <div class="doublebutton"><button>diners</button></div>
-          <div class="doublebutton"><button>amex</button></div>
-          <div class="doublebutton"><button class="button-primary">visa</button></div>
-          <div class="doublebutton"><button>jcb</button></div>
-          <div class="doublebutton"><button>mir</button></div>
+
         </div>
       </div>
     </div>
@@ -305,3 +483,4 @@ $(() => {
 </script>
 </body>
 </html>
+-->
