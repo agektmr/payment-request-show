@@ -12,3 +12,9 @@
   touch-action: none;
   pointer-events: none;
 }
+
+.center-selected {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
