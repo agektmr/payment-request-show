@@ -1,5 +1,7 @@
 class DemoController {
   constructor() {
+    this._shippingId = 0;
+
     const addDisplayItemBtn = document.querySelector('.add-display-item');
     addDisplayItemBtn.addEventListener('click', () => this.addDisplayItem());
 
@@ -8,41 +10,83 @@ class DemoController {
   }
 
   addDisplayItem() {
+    const uniqueId = `display-item-${Date.now()}`;
     const templateString = `<div class="mdl-grid mdl-grid--no-spacing">
       <div class="mdl-cell mdl-cell--6-col">
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input class="mdl-textfield__input" type="text" id="summary-text" value="">
-          <label class="mdl-textfield__label" for="summary-text">Label</label>
+        <div class="needs-mdl-upgrade mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" type="text" id="${uniqueId}-label" value="">
+          <label class="mdl-textfield__label" for="${uniqueId}-label">Label</label>
         </div>
       </div>
       <div class="mdl-cell mdl-cell--4-col">
-        <div class="mdl-textfield mdl-js-textfield  mdl-textfield--floating-label">
-          <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="summary-amount" value="">
-          <label class="mdl-textfield__label" for="summary-amount">Amount</label>
+        <div class="needs-mdl-upgrade mdl-textfield mdl-js-textfield  mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="${uniqueId}-amount" value="">
+          <label class="mdl-textfield__label" for="${uniqueId}-amount">Amount</label>
           <span class="mdl-textfield__error">The value must be a number.</span>
         </div>
       </div>
       <div class="mdl-cell mdl-cell--2-col">
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input class="mdl-textfield__input" type="text" id="summary-currency" value="USD">
-          <label class="mdl-textfield__label" for="summary-currency">Currency</label>
+        <div class="needs-mdl-upgrade mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" type="text" id="${uniqueId}-currency" value="USD">
+          <label class="mdl-textfield__label" for="${uniqueId}-currency">Currency</label>
         </div>
       </div>
     </div>`;
     const documentHack = document.createElement('div');
     documentHack.innerHTML = templateString;
-
     const newDisplayItem = documentHack.firstChild;
+
+    const mdlElements = newDisplayItem.querySelectorAll(`.needs-mdl-upgrade`);
+    mdlElements.forEach((mdlElement) => {
+      componentHandler.upgradeElement(mdlElement);
+    });
+
     const itemsContainer = document.querySelector('.display-items-container');
-
-    // TODO: Upgrade elements.
-    // componentHandler.upgradeElement(newDisplayItem);
-
     itemsContainer.appendChild(newDisplayItem);
   }
 
   addShippingOpt() {
-    console.log('TODO: Add Shipping Option.');
+    this._shippingId++;
+    const uniqueId = `shipping-opt-${Date.now()}`;
+
+    const templateString = `<div class="mdl-grid mdl-grid--no-spacing">
+    <div class="mdl-cell mdl-cell--2-col">
+      <div class="needs-mdl-upgrade mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="${uniqueId}-id" value="${this._shippingId}">
+        <label class="mdl-textfield__label" for="${uniqueId}-id">ID</label>
+      </div>
+    </div>
+      <div class="mdl-cell mdl-cell--5-col">
+        <div class="needs-mdl-upgrade mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" type="text" id="${uniqueId}-label" value="">
+          <label class="mdl-textfield__label" for="${uniqueId}-label">Label</label>
+        </div>
+      </div>
+      <div class="mdl-cell mdl-cell--3-col">
+        <div class="needs-mdl-upgrade mdl-textfield mdl-js-textfield  mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="${uniqueId}-amount" value="">
+          <label class="mdl-textfield__label" for="${uniqueId}-amount">Amount</label>
+          <span class="mdl-textfield__error">The value must be a number.</span>
+        </div>
+      </div>
+      <div class="mdl-cell mdl-cell--2-col center-selected">
+        <label class="needs-mdl-upgrade mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="${uniqueId}-selected">
+          <input type="checkbox" id="${uniqueId}-selected" class="mdl-checkbox__input" checked>
+          <span class="mdl-checkbox__label">Selected</span>
+        </label>
+      </div>
+    </div>`;
+    const documentHack = document.createElement('div');
+    documentHack.innerHTML = templateString;
+    const newDisplayItem = documentHack.firstChild;
+
+    const mdlElements = newDisplayItem.querySelectorAll(`.needs-mdl-upgrade`);
+    mdlElements.forEach((mdlElement) => {
+      componentHandler.upgradeElement(mdlElement);
+    });
+
+    const itemsContainer = document.querySelector('.shipping-opts-container');
+    itemsContainer.appendChild(newDisplayItem);
   }
 }
 
