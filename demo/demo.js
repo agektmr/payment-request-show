@@ -1,23 +1,23 @@
 /* eslint-disable max-len */
 const getDisplayItemTemplate = () => {
   const uniqueId = `display-item-${Date.now()}`;
-  return `<div class="mdl-grid mdl-grid--no-spacing">
+  return `<div class="mdl-grid mdl-grid--no-spacing display-item-wrapper">
     <div class="mdl-cell mdl-cell--6-col">
       <div class="needs-mdl-upgrade mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-        <input class="mdl-textfield__input" type="text" id="${uniqueId}-label" value="">
+        <input class="mdl-textfield__input display-item-label" type="text" id="${uniqueId}-label" value="">
         <label class="mdl-textfield__label" for="${uniqueId}-label">Label</label>
       </div>
     </div>
     <div class="mdl-cell mdl-cell--4-col">
       <div class="needs-mdl-upgrade mdl-textfield mdl-js-textfield  mdl-textfield--floating-label">
-        <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="${uniqueId}-amount" value="">
+        <input class="mdl-textfield__input display-item-amount" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="${uniqueId}-amount" value="">
         <label class="mdl-textfield__label" for="${uniqueId}-amount">Amount</label>
         <span class="mdl-textfield__error">The value must be a number.</span>
       </div>
     </div>
     <div class="mdl-cell mdl-cell--2-col">
       <div class="needs-mdl-upgrade mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-        <input class="mdl-textfield__input" type="text" id="${uniqueId}-currency" value="USD">
+        <input class="mdl-textfield__input display-item-currency" type="text" id="${uniqueId}-currency" value="USD">
         <label class="mdl-textfield__label" for="${uniqueId}-currency">Currency</label>
       </div>
     </div>
@@ -114,16 +114,50 @@ class DemoController {
       }
     });
 
+    const displayItemsFromUI = [];
+    const displayItemElements =
+      document.querySelectorAll('.display-item-wrapper');
+    displayItemElements.forEach((displayItemElement) => {
+      const labelValue =
+        displayItemElement.querySelector('.display-item-label').value;
+      const amountValue =
+        displayItemElement.querySelector('.display-item-amount').value;
+      const currencyValue =
+        displayItemElement.querySelector('.display-item-currency').value;
+
+      if (!labelValue || labelValue.length === 0 ||
+        !amountValue || amountValue.length === 0) {
+        console.warn('Found a display item without a label and / ' +
+          'or amount value so excluding it from the results.');
+        return;
+      }
+
+      displayItemsFromUI.push({
+        label: labelValue,
+        amount: {
+          currency: currencyValue,
+          value: amountValue,
+        },
+      });
+    });
+
+    const totalLabelValue =
+      document.querySelector('.summary-label').value;
+    const totalCurrencyValue =
+      document.querySelector('.summary-currency').value;
+    const totalAmountValue =
+      document.querySelector('.summary-amount').value;
+
+    const totalFromUI = {
+      label: totalLabelValue,
+      amount: {
+        currency: totalCurrencyValue,
+        value: totalAmountValue,
+      },
+    };
+
     /**
     // Checkout details
-    var di = [];
-    $("#order_items").children('#display-item').each(function(idx) {
-      var v = $(this).find("#value").val();
-      if (v === undefined) return;
-      di.push({
-          label: $(this).find("#label").val(),
-          amount: { currency: $(this).find("#currency").val(), value: v}});
-    });
     var shipping_options = [];
     $("#shipping-options").children(".shipping-option").each(function(idx) {
       var option_id = $(this).find(".shipping-option-id").val();
@@ -140,13 +174,7 @@ class DemoController {
       })
     });
     var details = {
-      displayItems: di,
       shippingOptions: shipping_options,
-      total: {
-        label: $("#total_item").find("#label").val(),
-        amount: { currency: $("#total_item").find("#currency").val(),
-                  value : $("#total_item").find("#value").val() }
-      }
     };
     var shipping_type = document.getElementById("shipping-type");
     var options = {
@@ -170,16 +198,9 @@ class DemoController {
       supportedMethods: supportedPaymentMethods,
     }];
     const details = {
+      displayItems: displayItemsFromUI,
       // Excluding total will result in an error - it's a required field.
-      total: {
-        label: 'Example Total Label',
-        amount: {
-          // Setting an invalid currency will result in an error
-          // must be ISO 4217
-          currency: 'USD',
-          value: '123',
-        },
-      },
+      total: totalFromUI,
     };
     const options = {};
 
@@ -198,7 +219,12 @@ class DemoController {
       return result.complete('success');
     })
     .catch((err) => {
-      console.error('An error was thrown by paymentRequest.show().', err);
+      console.group(
+        'The promise from `paymentRequest.show()` rejected.');
+      console.warn('This is normally due to the user closing or cancelling ' +
+        'the payment request UI.');
+      console.warn(`The error received was: '${err.message}'`);
+      console.groupEnd();
     });
   }
 }
