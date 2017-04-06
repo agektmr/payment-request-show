@@ -61,3 +61,13 @@
 .demo-footer .mdl-mini-footer--link-list a {
   font-size: 13px;
 }
+
+img {
+  max-width: 100%;
+}
+
+img.outline {
+  border-style: solid;
+  border-width: 4px;
+  border-color: rgba(0,0,0,0.15);
+}

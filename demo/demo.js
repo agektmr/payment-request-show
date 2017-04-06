@@ -47,14 +47,12 @@ class DemoController {
 }
 
 window.addEventListener('load', function() {
-  const demoContainer = document.querySelector('.demo-container');
-  demoContainer.classList.remove('is-not-supported');
   if ('PaymentRequest' in window) {
     // Enable the demo
-    // demoContainer.classList.remove('is-not-supported');
+    const demoContainer = document.querySelector('.demo-container');
+    demoContainer.classList.remove('is-not-supported');
+    new DemoController();
   } else {
-    demoContainer.classList.remove('hide');
+    document.querySelector('.supported-warning').classList.remove('hide');
   }
-
-  new DemoController();
 });

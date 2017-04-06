@@ -53,7 +53,7 @@
             </section>
 
             <noscript>
-              <section class="supported-warning">
+              <section class="no-js-warning">
                 <h4>Sorry - JavaScript is Required</h4>
                 <p>Unfortunately the PaymentRequest API requires JavaScript to work correctly.</p>
               </section>
@@ -63,47 +63,57 @@
               <h3>Payment Request API Demo</h3>
 
               <h5>Select Supported Payment Methods</h5>
-              <p>TODO: Explain what toggling these on and off will do.....</p>
-              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-mastercard">
-                <input type="checkbox" id="checkbox-mastercard" class="mdl-checkbox__input" checked>
-                <span class="mdl-checkbox__label">mastercard</span>
-              </label>
-              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-discover">
-                <input type="checkbox" id="checkbox-discover" class="mdl-checkbox__input">
-                <span class="mdl-checkbox__label">discover</span>
-              </label>
-              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-unionpay">
-                <input type="checkbox" id="checkbox-unionpay" class="mdl-checkbox__input">
-                <span class="mdl-checkbox__label">unionpay</span>
-              </label>
-              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-maestro">
-                <input type="checkbox" id="checkbox-maestro" class="mdl-checkbox__input">
-                <span class="mdl-checkbox__label">maestro</span>
-              </label>
-              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-diners">
-                <input type="checkbox" id="checkbox-diners" class="mdl-checkbox__input">
-                <span class="mdl-checkbox__label">diners</span>
-              </label>
-              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-amex">
-                <input type="checkbox" id="checkbox-amex" class="mdl-checkbox__input">
-                <span class="mdl-checkbox__label">amex</span>
-              </label>
-              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-visa">
-                <input type="checkbox" id="checkbox-visa" class="mdl-checkbox__input" checked>
-                <span class="mdl-checkbox__label">visa</span>
-              </label>
-              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-jcb">
-                <input type="checkbox" id="checkbox-jcb" class="mdl-checkbox__input">
-                <span class="mdl-checkbox__label">jcb</span>
-              </label>
-              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-mir">
-                <input type="checkbox" id="checkbox-mir" class="mdl-checkbox__input">
-                <span class="mdl-checkbox__label">mir</span>
-              </label>
+              <p>The Payment Request API has a range of support payment methods, this demo currently only supports basic credit cards
+              but the Payment Request API can support third party payment processors.</p>
+
+              <div class="mdl-grid mdl-grid--no-spacing">
+                <div class="mdl-cell mdl-cell--6-col">
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-mastercard">
+                    <input type="checkbox" id="checkbox-mastercard" class="mdl-checkbox__input" checked>
+                    <span class="mdl-checkbox__label">mastercard</span>
+                  </label>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-discover">
+                    <input type="checkbox" id="checkbox-discover" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">discover</span>
+                  </label>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-unionpay">
+                    <input type="checkbox" id="checkbox-unionpay" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">unionpay</span>
+                  </label>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-maestro">
+                    <input type="checkbox" id="checkbox-maestro" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">maestro</span>
+                  </label>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-diners">
+                    <input type="checkbox" id="checkbox-diners" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">diners</span>
+                  </label>
+                </div>
+                <div class="mdl-cell mdl-cell--6-col">
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-visa">
+                    <input type="checkbox" id="checkbox-visa" class="mdl-checkbox__input" checked>
+                    <span class="mdl-checkbox__label">visa</span>
+                  </label>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-amex">
+                    <input type="checkbox" id="checkbox-amex" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">amex</span>
+                  </label>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-jcb">
+                    <input type="checkbox" id="checkbox-jcb" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">jcb</span>
+                  </label>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-mir">
+                    <input type="checkbox" id="checkbox-mir" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">mir</span>
+                  </label>
+                </div>
+              </div>
 
               <h5>Display Items</h5>
-              <p>TODO: Explain this is the individual items.</p>
-              <p>TODO: Should this include the shipping?</p>
+              <p>It's possible to define any number of display items in the Payment Request UI.</p>
+              <p>It's up to you the developer to ensure that the list of items equals the total value shown in the order summary, the
+                Payment Request API performs no calculations.</p>
+              <p><em>Try adding both valid and invalid amounts in the display items and the summary total to see the differences.</em></p>
 
               <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add-display-item">
                 Add Display Item
@@ -114,9 +124,10 @@
 
               </div>
 
-              <h5>Summary Item</h5>
-              <p>TODO: Explain this is normally the total.</p>
-              <p>TODO: Explain that the values don't have to add up.</p>
+              <h5>Order Summary</h5>
+              <p>The order summary is the value that is shown most prominently to the user, it should be treated as the
+                total of the users transaction.</p>
+              <p><em>Change the name, total and current to see how it effects the UI.</em></p>
 
               <div class="mdl-grid mdl-grid--no-spacing">
                 <div class="mdl-cell mdl-cell--6-col">
@@ -141,7 +152,8 @@
               </div>
 
               <h5>Options</h5>
-              <p>TODO: Explain this is for getting user information.</p>
+              <p>The API can also request information for the user. The type of transaction will
+              determine will often dictate what is needed.</p>
 
               <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-buyer-name">
                 <input type="checkbox" id="checkbox-buyer-name" class="mdl-checkbox__input">
@@ -164,8 +176,10 @@
               </label>
 
               <h5>Shipping Options</h5>
-              <p>TODO: Explain this information is used if the shipping option
-              above is selected.</p>
+              <p>If you require shipping information (i.e. you have the shipping option ticked above) you can
+              provide a set of shipping options for the user to select from.</p>
+              <p>The UI will require the user to input an address to ship to which you listen to when it changes
+              and accept or deny the address as valid.</p>
 
               <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add-shipping-opt">
                 Add Shipping Option
