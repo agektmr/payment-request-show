@@ -66,44 +66,44 @@
               <p>The Payment Request API has a range of support payment methods, this demo currently only supports basic credit cards
               but the Payment Request API can support third party payment processors.</p>
 
-              <div class="mdl-grid mdl-grid--no-spacing">
+              <div class="mdl-grid mdl-grid--no-spacing basic-card-payment-methods">
                 <div class="mdl-cell mdl-cell--6-col">
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-mastercard">
-                    <input type="checkbox" id="checkbox-mastercard" class="mdl-checkbox__input" checked>
+                    <input type="checkbox" data-paymentmethod="mastercard" id="checkbox-mastercard" class="mdl-checkbox__input" checked>
                     <span class="mdl-checkbox__label">mastercard</span>
                   </label>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-discover">
-                    <input type="checkbox" id="checkbox-discover" class="mdl-checkbox__input">
+                    <input type="checkbox" data-paymentmethod="discover" id="checkbox-discover" class="mdl-checkbox__input">
                     <span class="mdl-checkbox__label">discover</span>
                   </label>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-unionpay">
-                    <input type="checkbox" id="checkbox-unionpay" class="mdl-checkbox__input">
+                    <input type="checkbox" data-paymentmethod="unionpay" id="checkbox-unionpay" class="mdl-checkbox__input">
                     <span class="mdl-checkbox__label">unionpay</span>
                   </label>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-maestro">
-                    <input type="checkbox" id="checkbox-maestro" class="mdl-checkbox__input">
+                    <input type="checkbox" data-paymentmethod="maestro" id="checkbox-maestro" class="mdl-checkbox__input">
                     <span class="mdl-checkbox__label">maestro</span>
                   </label>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-diners">
-                    <input type="checkbox" id="checkbox-diners" class="mdl-checkbox__input">
+                    <input type="checkbox" data-paymentmethod="diners" id="checkbox-diners" class="mdl-checkbox__input">
                     <span class="mdl-checkbox__label">diners</span>
                   </label>
                 </div>
                 <div class="mdl-cell mdl-cell--6-col">
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-visa">
-                    <input type="checkbox" id="checkbox-visa" class="mdl-checkbox__input" checked>
+                    <input type="checkbox" data-paymentmethod="visa" id="checkbox-visa" class="mdl-checkbox__input" checked>
                     <span class="mdl-checkbox__label">visa</span>
                   </label>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-amex">
-                    <input type="checkbox" id="checkbox-amex" class="mdl-checkbox__input">
+                    <input type="checkbox" data-paymentmethod="amex" id="checkbox-amex" class="mdl-checkbox__input">
                     <span class="mdl-checkbox__label">amex</span>
                   </label>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-jcb">
-                    <input type="checkbox" id="checkbox-jcb" class="mdl-checkbox__input">
+                    <input type="checkbox" data-paymentmethod="jcb" id="checkbox-jcb" class="mdl-checkbox__input">
                     <span class="mdl-checkbox__label">jcb</span>
                   </label>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-mir">
-                    <input type="checkbox" id="checkbox-mir" class="mdl-checkbox__input">
+                    <input type="checkbox" data-paymentmethod="mir" id="checkbox-mir" class="mdl-checkbox__input">
                     <span class="mdl-checkbox__label">mir</span>
                   </label>
                 </div>
@@ -183,6 +183,15 @@
               </button>
 
               <div class="shipping-opts-container"></div>
+
+              <h5>Buy Now</h5>
+              <p>When you are ready to request payment from the user, you call <code>paymentRequest.show()</code>, which is what
+              will happen when you click "Buy Now" below.</p>
+
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored buy-now-btn">
+                Buy Now
+              </button>
+
             </section>
           </div>
         </div>
