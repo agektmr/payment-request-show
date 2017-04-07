@@ -208,13 +208,6 @@ class DemoController {
       });
     });
 
-    /**
-    // Checkout details
-    var shipping_type = document.getElementById("shipping-type");
-    var options = {
-      shippingType: shipping_type.options[shipping_type.selectedIndex].value
-    };
-    **/
     const options = {
       requestPayerName: false,
       requestPayerPhone: false,
@@ -237,6 +230,13 @@ class DemoController {
     if (document.querySelector('#checkbox-shipping').checked) {
       options.requestShipping = true;
     }
+    const selectedShippingType = document.querySelector(
+      '.shipping-type-option input[type=\'radio\']:checked');
+    if (selectedShippingType && selectedShippingType.value !== 'default') {
+      options.shippingType = selectedShippingType.value;
+    }
+
+    console.log(options);
 
     // Why is this an array of an object with supportedMethods?
     const supportedInstruments = [basicCards];
