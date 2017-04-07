@@ -192,6 +192,28 @@ class DemoController {
         options.requestShipping = true;
     });
     **/
+    const options = {
+      requestPayerName: false,
+      requestPayerPhone: false,
+      requestPayerEmail: false,
+      requestShipping: false,
+    };
+
+    if (document.querySelector('#checkbox-buyer-name').checked) {
+      options.requestPayerName = true;
+    }
+
+    if (document.querySelector('#checkbox-buyer-phone').checked) {
+      options.requestPayerPhone = true;
+    }
+
+    if (document.querySelector('#checkbox-buyer-email').checked) {
+      options.requestPayerEmail = true;
+    }
+
+    if (document.querySelector('#checkbox-shipping').checked) {
+      options.requestShipping = true;
+    }
 
     // Why is this an array of an object with supportedMethods?
     const supportedInstruments = [{
@@ -202,12 +224,15 @@ class DemoController {
       // Excluding total will result in an error - it's a required field.
       total: totalFromUI,
     };
-    const options = {};
 
     const paymentRequest = new PaymentRequest(
       supportedInstruments,
       details,
       options);
+
+    paymentRequest.addEventListener(
+      'shippingaddresschange', this.onShippingAddressChange);
+
     paymentRequest.show()
     .then((result) => {
       // Process the payment
@@ -223,10 +248,75 @@ class DemoController {
         'The promise from `paymentRequest.show()` rejected.');
       console.warn('This is normally due to the user closing or cancelling ' +
         'the payment request UI.');
-      console.warn(`The error received was: '${err.message}'`);
+      console.warn(`The error message received was: '${err.message}'`);
+      console.error(err);
       console.groupEnd();
     });
   }
+
+  onShippingAddressChange(event) {
+  // TODO: This needs a big rewrite to actuall be useful
+  // or demonstrate a "relatively" normal use case.
+
+  const paymentRequest = event.target;
+
+  console.log(`New shipping address is: `, paymentRequest.shippingAddress);
+
+  /** const newAddress = paymentRequest.shippingAddress;
+  if (newAddress.country === 'US') {
+    const shippingOption = {
+      id: '',
+      label: '',
+      amount: {currency: 'USD', value: '0.00'},
+      selected: true,
+    };
+
+    if (newAddress.region === 'US') {
+      shippingOption.id = 'us';
+      shippingOption.label = 'Standard shipping in US';
+      shippingOption.amount.value = '0.00';
+      details.total.amount.value = '55.00';
+    } else {
+      shippingOption.id = 'others';
+      shippingOption.label = 'International shipping';
+      shippingOption.amount.value = '10.00';
+      details.total.amount.value = '65.00';
+    }
+
+    if (details.displayItems.length === 2) {
+      details.displayItems.splice(1, 0, shippingOption);
+    } else {
+      details.displayItems.splice(1, 1, shippingOption);
+    }
+
+    details.shippingOptions = [shippingOption];
+  } else {
+    details.shippingOptions = [];
+  }**/
+
+
+  // This leads to a bug.
+  const promise = Promise.resolve({
+    total: {
+      label: 'Haro',
+      amount: {
+        currency: 'GBP',
+        value: '1',
+      },
+    },
+    shippingOptions: [{
+      id: 'us',
+      label: 'shipping label',
+      selected: true,
+      amount: {
+        currency: 'USD',
+        value: '0.00',
+      },
+    }],
+  });
+
+  event.updateWith(promise);
+}
 }
 
 window.addEventListener('load', function() {
