@@ -24,31 +24,37 @@ const getDisplayItemTemplate = () => {
   </div>`;
 };
 
-const getShippingOptionTemplate = () => {
+const getShippingOptionTemplate = (shippingId) => {
   const uniqueId = `shipping-opt-${Date.now()}`;
-  return `<div class="mdl-grid mdl-grid--no-spacing">
-  <div class="mdl-cell mdl-cell--2-col">
+  return `<div class="mdl-grid mdl-grid--no-spacing shipping-options-wrapper">
+  <div class="mdl-cell mdl-cell--1-col">
     <div class="needs-mdl-upgrade mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-      <input class="mdl-textfield__input" type="text" id="${uniqueId}-id" value="${this._shippingId}">
+      <input class="mdl-textfield__input shipping-opt-id" type="text" id="${uniqueId}-id" value="${shippingId}">
       <label class="mdl-textfield__label" for="${uniqueId}-id">ID</label>
     </div>
   </div>
     <div class="mdl-cell mdl-cell--5-col">
       <div class="needs-mdl-upgrade mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-        <input class="mdl-textfield__input" type="text" id="${uniqueId}-label" value="">
+        <input class="mdl-textfield__input shipping-opt-label" type="text" id="${uniqueId}-label" value="">
         <label class="mdl-textfield__label" for="${uniqueId}-label">Label</label>
       </div>
     </div>
     <div class="mdl-cell mdl-cell--3-col">
       <div class="needs-mdl-upgrade mdl-textfield mdl-js-textfield  mdl-textfield--floating-label">
-        <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="${uniqueId}-amount" value="">
+        <input class="mdl-textfield__input shipping-opt-amount" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="${uniqueId}-amount" value="">
         <label class="mdl-textfield__label" for="${uniqueId}-amount">Amount</label>
         <span class="mdl-textfield__error">The value must be a number.</span>
       </div>
     </div>
+    <div class="mdl-cell mdl-cell--1-col">
+      <div class="needs-mdl-upgrade mdl-textfield mdl-js-textfield  mdl-textfield--floating-label">
+        <input class="mdl-textfield__input shipping-opt-currency" type="text" value="USD">
+        <label class="mdl-textfield__label" for="${uniqueId}-amount">Current</label>
+      </div>
+    </div>
     <div class="mdl-cell mdl-cell--2-col center-selected">
       <label class="needs-mdl-upgrade mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="${uniqueId}-selected">
-        <input type="checkbox" id="${uniqueId}-selected" class="mdl-checkbox__input">
+        <input type="checkbox" id="${uniqueId}-selected" class="mdl-checkbox__input shipping-opt-selected">
         <span class="mdl-checkbox__label">Selected</span>
       </label>
     </div>
@@ -60,8 +66,15 @@ class DemoController {
   constructor() {
     this._shippingId = 0;
 
+    // Just to set the initial state
+    this.onEnableShippingChange();
+
     const addDisplayItemBtn = document.querySelector('.add-display-item');
     addDisplayItemBtn.addEventListener('click', () => this.addDisplayItem());
+
+    const enableShippingCheckbox = document.querySelector('#checkbox-shipping');
+    enableShippingCheckbox.addEventListener('change',
+      () => this.onEnableShippingChange());
 
     const addShippingOptBtn = document.querySelector('.add-shipping-opt');
     addShippingOptBtn.addEventListener('click', () => this.addShippingOpt());
@@ -87,7 +100,7 @@ class DemoController {
 
   addShippingOpt() {
     this._shippingId++;
-    const templateString = getShippingOptionTemplate();
+    const templateString = getShippingOptionTemplate(this._shippingId);
 
     const documentHack = document.createElement('div');
     documentHack.innerHTML = templateString;
@@ -104,15 +117,21 @@ class DemoController {
 
   buyNowClick() {
     // Supported payment methods
-    const supportedPaymentMethods = [];
+    const supportedCardNetworks = [];
     const basicCardCheckboxes = document.querySelectorAll(
       '.basic-card-payment-methods input[type=\'checkbox\']');
     basicCardCheckboxes.forEach((basicCardCheckbox) => {
       if (basicCardCheckbox.checked &&
-        basicCardCheckbox.dataset.paymentmethod) {
-        supportedPaymentMethods.push(basicCardCheckbox.dataset.paymentmethod);
+        basicCardCheckbox.dataset.cardnetwork) {
+        supportedCardNetworks.push(basicCardCheckbox.dataset.cardnetwork);
       }
     });
+    const basicCards = {
+      supportedMethods: ['basic-card'],
+      data: {
+        supportedNetworks: supportedCardNetworks,
+      },
+    };
 
     const displayItemsFromUI = [];
     const displayItemElements =
@@ -156,41 +175,45 @@ class DemoController {
       },
     };
 
+    const shippingOptionsFromUI = [];
+    const shippingOptionElements =
+      document.querySelectorAll('.shipping-options-wrapper');
+    shippingOptionElements.forEach((shippingOptionElement) => {
+      const idValue =
+        shippingOptionElement.querySelector('.shipping-opt-id').value;
+      const labelValue =
+        shippingOptionElement.querySelector('.shipping-opt-label').value;
+      const amountValue =
+        shippingOptionElement.querySelector('.shipping-opt-amount').value;
+      const currencyValue =
+        shippingOptionElement.querySelector('.shipping-opt-currency').value;
+      const selectedValue =
+        shippingOptionElement.querySelector('.shipping-opt-selected').checked;
+
+      if (!labelValue || labelValue.length === 0 ||
+        !amountValue || amountValue.length === 0) {
+        console.warn('Found a display item without a label and / ' +
+          'or amount value so excluding it from the results.');
+        return;
+      }
+
+      shippingOptionsFromUI.push({
+        id: idValue,
+        label: labelValue,
+        amount: {
+          currency: currencyValue,
+          value: amountValue,
+        },
+        selected: selectedValue,
+      });
+    });
+
     /**
     // Checkout details
-    var shipping_options = [];
-    $("#shipping-options").children(".shipping-option").each(function(idx) {
-      var option_id = $(this).find(".shipping-option-id").val();
-      var option_label = $(this).find(".shipping-option-label").val();
-      var option_amount = $(this).find(".shipping-option-amount").val();
-      var option_selected = $(this).find("button").hasClass("button-primary");
-      shipping_options.push({
-        id: option_id,
-        label: option_label,
-        amount: {
-          currency: $("#currency").val(), value: option_amount
-        },
-        selected: option_selected
-      })
-    });
-    var details = {
-      shippingOptions: shipping_options,
-    };
     var shipping_type = document.getElementById("shipping-type");
     var options = {
       shippingType: shipping_type.options[shipping_type.selectedIndex].value
     };
-    $("#options .options-request button.button-primary").each(function(idx) {
-      var option_text = $(this).text();
-      if (option_text == "Name")
-        options.requestPayerName = true;
-      if (option_text == "Phone")
-        options.requestPayerPhone = true;
-      if (option_text == "Email")
-        options.requestPayerEmail = true;
-      if (option_text == "Shipping")
-        options.requestShipping = true;
-    });
     **/
     const options = {
       requestPayerName: false,
@@ -216,13 +239,12 @@ class DemoController {
     }
 
     // Why is this an array of an object with supportedMethods?
-    const supportedInstruments = [{
-      supportedMethods: supportedPaymentMethods,
-    }];
+    const supportedInstruments = [basicCards];
     const details = {
       displayItems: displayItemsFromUI,
       // Excluding total will result in an error - it's a required field.
       total: totalFromUI,
+      shippingOptions: shippingOptionsFromUI,
     };
 
     const paymentRequest = new PaymentRequest(
@@ -231,7 +253,13 @@ class DemoController {
       options);
 
     paymentRequest.addEventListener(
-      'shippingaddresschange', this.onShippingAddressChange);
+      'shippingaddresschange',
+      (event) => this.onShippingAddressChange(event, details)
+    );
+    paymentRequest.addEventListener(
+      'shippingoptionchange',
+      (event) => this.onShippingOptionChange(event, details)
+    );
 
     paymentRequest.show()
     .then((result) => {
@@ -254,69 +282,46 @@ class DemoController {
     });
   }
 
-  onShippingAddressChange(event) {
-  // TODO: This needs a big rewrite to actuall be useful
-  // or demonstrate a "relatively" normal use case.
+  onShippingAddressChange(event, previousDetails) {
+    const paymentRequest = event.target;
+    console.log(`Received a 'shippingaddresschange' event, change to: `,
+      paymentRequest.shippingAddress);
 
-  const paymentRequest = event.target;
+    // The response needs to be details + at least one shipping option.
+    // If no shipping option is defined then the API treats it as the
+    // address is invalid.
+    // TODO: Can you define a custom error "We only ship to US addresses..."
 
-  console.log(`New shipping address is: `, paymentRequest.shippingAddress);
+    // Assume every is valid in this demo.
 
-  /** const newAddress = paymentRequest.shippingAddress;
-  if (newAddress.country === 'US') {
-    const shippingOption = {
-      id: '',
-      label: '',
-      amount: {currency: 'USD', value: '0.00'},
-      selected: true,
-    };
+    event.updateWith(previousDetails);
+  }
 
-    if (newAddress.region === 'US') {
-      shippingOption.id = 'us';
-      shippingOption.label = 'Standard shipping in US';
-      shippingOption.amount.value = '0.00';
-      details.total.amount.value = '55.00';
+  // This event has nothing to do with Payment Request - just to explain
+  // the UI / behavior a little bit.
+  onEnableShippingChange() {
+    const isEnabled = document.querySelector('#checkbox-shipping').checked;
+    const shippingEnabledUI =
+      document.querySelector('.depends-on-shipping-enabled');
+    if (isEnabled) {
+      shippingEnabledUI.classList.remove('is-disabled');
     } else {
-      shippingOption.id = 'others';
-      shippingOption.label = 'International shipping';
-      shippingOption.amount.value = '10.00';
-      details.total.amount.value = '65.00';
+      shippingEnabledUI.classList.add('is-disabled');
     }
+  }
 
-    if (details.displayItems.length === 2) {
-      details.displayItems.splice(1, 0, shippingOption);
-    } else {
-      details.displayItems.splice(1, 1, shippingOption);
-    }
+  onShippingOptionChange(event, previousDetails) {
+    const paymentRequest = event.target;
+    console.log(`Received a 'shippingoptionchange' event, change to: `,
+      paymentRequest.shippingOption);
 
-    details.shippingOptions = [shippingOption];
-  } else {
-    details.shippingOptions = [];
-  }**/
+    previousDetails.shippingOptions.forEach((shippingOption) => {
+      shippingOption.selected =
+        shippingOption.id === paymentRequest.shippingOption;
+    });
 
-
-  // This leads to a bug.
-  const promise = Promise.resolve({
-    total: {
-      label: 'Haro',
-      amount: {
-        currency: 'GBP',
-        value: '1',
-      },
-    },
-    shippingOptions: [{
-      id: 'us',
-      label: 'shipping label',
-      selected: true,
-      amount: {
-        currency: 'USD',
-        value: '0.00',
-      },
-    }],
-  });
-
-  event.updateWith(promise);
-}
+    event.updateWith(previousDetails);
+  }
 }
 
 window.addEventListener('load', function() {

@@ -69,41 +69,41 @@
               <div class="mdl-grid mdl-grid--no-spacing basic-card-payment-methods">
                 <div class="mdl-cell mdl-cell--6-col">
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-mastercard">
-                    <input type="checkbox" data-paymentmethod="mastercard" id="checkbox-mastercard" class="mdl-checkbox__input" checked>
+                    <input type="checkbox" data-cardnetwork="mastercard" id="checkbox-mastercard" class="mdl-checkbox__input" checked>
                     <span class="mdl-checkbox__label">mastercard</span>
                   </label>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-discover">
-                    <input type="checkbox" data-paymentmethod="discover" id="checkbox-discover" class="mdl-checkbox__input">
+                    <input type="checkbox" data-cardnetwork="discover" id="checkbox-discover" class="mdl-checkbox__input">
                     <span class="mdl-checkbox__label">discover</span>
                   </label>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-unionpay">
-                    <input type="checkbox" data-paymentmethod="unionpay" id="checkbox-unionpay" class="mdl-checkbox__input">
+                    <input type="checkbox" data-cardnetwork="unionpay" id="checkbox-unionpay" class="mdl-checkbox__input">
                     <span class="mdl-checkbox__label">unionpay</span>
                   </label>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-maestro">
-                    <input type="checkbox" data-paymentmethod="maestro" id="checkbox-maestro" class="mdl-checkbox__input">
+                    <input type="checkbox" data-cardnetwork="maestro" id="checkbox-maestro" class="mdl-checkbox__input">
                     <span class="mdl-checkbox__label">maestro</span>
                   </label>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-diners">
-                    <input type="checkbox" data-paymentmethod="diners" id="checkbox-diners" class="mdl-checkbox__input">
+                    <input type="checkbox" data-cardnetwork="diners" id="checkbox-diners" class="mdl-checkbox__input">
                     <span class="mdl-checkbox__label">diners</span>
                   </label>
                 </div>
                 <div class="mdl-cell mdl-cell--6-col">
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-visa">
-                    <input type="checkbox" data-paymentmethod="visa" id="checkbox-visa" class="mdl-checkbox__input" checked>
+                    <input type="checkbox" data-cardnetwork="visa" id="checkbox-visa" class="mdl-checkbox__input" checked>
                     <span class="mdl-checkbox__label">visa</span>
                   </label>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-amex">
-                    <input type="checkbox" data-paymentmethod="amex" id="checkbox-amex" class="mdl-checkbox__input">
+                    <input type="checkbox" data-cardnetwork="amex" id="checkbox-amex" class="mdl-checkbox__input">
                     <span class="mdl-checkbox__label">amex</span>
                   </label>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-jcb">
-                    <input type="checkbox" data-paymentmethod="jcb" id="checkbox-jcb" class="mdl-checkbox__input">
+                    <input type="checkbox" data-cardnetwork="jcb" id="checkbox-jcb" class="mdl-checkbox__input">
                     <span class="mdl-checkbox__label">jcb</span>
                   </label>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-mir">
-                    <input type="checkbox" data-paymentmethod="mir" id="checkbox-mir" class="mdl-checkbox__input">
+                    <input type="checkbox" data-cardnetwork="mir" id="checkbox-mir" class="mdl-checkbox__input">
                     <span class="mdl-checkbox__label">mir</span>
                   </label>
                 </div>
@@ -172,17 +172,47 @@
                 <span class="mdl-checkbox__label">Shipping</span>
               </label>
 
-              <h5>Shipping Options</h5>
-              <p>If you require shipping information (i.e. you have the shipping option ticked above) you can
-              provide a set of shipping options for the user to select from.</p>
-              <p>The UI will require the user to input an address to ship to which you listen to when it changes
-              and accept or deny the address as valid.</p>
+              <section class="depends-on-shipping-enabled">
+                <h6>Shipping Type</h6>
+                <div class="mdl-grid mdl-grid--no-spacing">
+                  <div class="mdl-cell mdl-cell--6-col">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-nothing">
+                      <input type="radio" id="option-nothing" class="mdl-radio__button" name="options" value="default" checked>
+                      <span class="mdl-radio__label">No Type (i.e. default)</span>
+                    </label>
+                  </div>
+                  <div class="mdl-cell mdl-cell--6-col">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-shipping">
+                      <input type="radio" id="option-shipping" class="mdl-radio__button" name="options" value="shipping">
+                      <span class="mdl-radio__label">Shipping</span>
+                    </label>
+                  </div>
+                  <div class="mdl-cell mdl-cell--6-col">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-delivery">
+                      <input type="radio" id="option-delivery" class="mdl-radio__button" name="options" value="delivery">
+                      <span class="mdl-radio__label">Delivery</span>
+                    </label>
+                  </div>
+                  <div class="mdl-cell mdl-cell--6-col">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-pickup">
+                      <input type="radio" id="option-pickup" class="mdl-radio__button" name="options" value="pickup">
+                      <span class="mdl-radio__label">Pickup</span>
+                    </label>
+                  </div>
+                </div>
 
-              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add-shipping-opt">
-                Add Shipping Option
-              </button>
+                <h5>Shipping Options</h5>
+                <p>If you require shipping information (i.e. you have the shipping option ticked above) you can
+                provide a set of shipping options for the user to select from.</p>
+                <p>The UI will require the user to input an address to ship to which you listen to when it changes
+                and accept or deny the address as valid.</p>
 
-              <div class="shipping-opts-container"></div>
+                <div class="shipping-opts-container"></div>
+
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add-shipping-opt">
+                  Add Shipping Option
+                </button>
+              </section>
 
               <h5>Buy Now</h5>
               <p>When you are ready to request payment from the user, you call <code>paymentRequest.show()</code>, which is what
