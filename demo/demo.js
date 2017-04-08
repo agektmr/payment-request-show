@@ -26,6 +26,7 @@ const getDisplayItemTemplate = () => {
 
 const getShippingOptionTemplate = (shippingId) => {
   const uniqueId = `shipping-opt-${Date.now()}`;
+  const randomLabel = window.namegen();
   return `<div class="mdl-grid mdl-grid--no-spacing shipping-options-wrapper">
   <div class="mdl-cell mdl-cell--1-col">
     <div class="needs-mdl-upgrade mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -35,7 +36,7 @@ const getShippingOptionTemplate = (shippingId) => {
   </div>
     <div class="mdl-cell mdl-cell--5-col">
       <div class="needs-mdl-upgrade mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-        <input class="mdl-textfield__input shipping-opt-label" type="text" id="${uniqueId}-label" value="">
+        <input class="mdl-textfield__input shipping-opt-label" type="text" id="${uniqueId}-label" value="${randomLabel}">
         <label class="mdl-textfield__label" for="${uniqueId}-label">Label</label>
       </div>
     </div>
@@ -325,7 +326,7 @@ class DemoController {
 }
 
 window.addEventListener('load', function() {
-  if ('PaymentRequest' in window) {
+  if ('PaymentRequest' in window || true) {
     // Enable the demo
     const demoContainer = document.querySelector('.demo-container');
     demoContainer.classList.remove('is-not-supported');
