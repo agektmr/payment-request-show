@@ -326,7 +326,7 @@ class DemoController {
 }
 
 window.addEventListener('load', function() {
-  if ('PaymentRequest' in window || true) {
+  if ('PaymentRequest' in window) {
     // Enable the demo
     const demoContainer = document.querySelector('.demo-container');
     demoContainer.classList.remove('is-not-supported');
