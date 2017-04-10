@@ -237,8 +237,6 @@ class DemoController {
       options.shippingType = selectedShippingType.value;
     }
 
-    console.log(options);
-
     // Why is this an array of an object with supportedMethods?
     const supportedInstruments = [basicCards];
     const details = {
@@ -270,6 +268,12 @@ class DemoController {
       data.details = result.details;
 
       // $("#result").text(JSON.stringify(data, null, 2));
+
+      console.group('Payment Request Result');
+      console.log('Data: ', JSON.stringify(data, null, 2));
+      console.log('Result: ', result);
+      console.groupEnd();
+
       return result.complete('success');
     })
     .catch((err) => {
