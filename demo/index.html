@@ -109,18 +109,6 @@
                 </div>
               </div>
 
-              <h5>Display Items</h5>
-              <p>It's possible to define any number of display items in the Payment Request UI.</p>
-              <p>It's up to you the developer to ensure that the list of items equals the total value shown in the order summary, the
-                Payment Request API performs no calculations.</p>
-              <p><em>Try adding both valid and invalid amounts in the display items and the summary total to see the differences.</em></p>
-
-              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add-display-item">
-                Add Display Item
-              </button>
-
-              <div class="display-items-container"></div>
-
               <h5>Order Summary</h5>
               <p>The order summary is the value that is shown most prominently to the user, it should be treated as the
                 total of the users transaction.</p>
@@ -147,6 +135,18 @@
                   </div>
                 </div>
               </div>
+
+              <h5>Display Items</h5>
+              <p>It's possible to define any number of display items in the Payment Request UI.</p>
+              <p>It's up to you the developer to ensure that the list of items equals the total value shown in the order summary, the
+                Payment Request API performs no calculations.</p>
+              <p><em>Try adding both valid and invalid amounts in the display items and the summary total to see the differences.</em></p>
+
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add-display-item">
+                Add Display Item
+              </button>
+
+              <div class="display-items-container"></div>
 
               <h5>Options</h5>
               <p>The API can also request information for the user. The type of transaction will
@@ -221,6 +221,14 @@
               <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored buy-now-btn">
                 Buy Now
               </button>
+
+              <h5>paymentRequest.show() Result</h5>
+              <p>If you complete a "purchase" with the payment request API, below will be the result that is passed to the web app.</p>
+
+              <div class="payment-request-result-container">
+                <pre>
+                </pre>
+              </div>
 
             </section>
           </div>

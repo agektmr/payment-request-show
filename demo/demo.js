@@ -267,7 +267,9 @@ class DemoController {
       data.methodName = result.methodName;
       data.details = result.details;
 
-      // $("#result").text(JSON.stringify(data, null, 2));
+      const prResultContainer =
+        document.querySelector('.payment-request-result-container pre');
+      prResultContainer.textContent = JSON.stringify(data, null, 2);
 
       console.group('Payment Request Result');
       console.log('Data: ', JSON.stringify(data, null, 2));
@@ -330,7 +332,7 @@ class DemoController {
 }
 
 window.addEventListener('load', function() {
-  if ('PaymentRequest' in window) {
+  if (window.PaymentRequest) {
     // Enable the demo
     const demoContainer = document.querySelector('.demo-container');
     demoContainer.classList.remove('is-not-supported');
