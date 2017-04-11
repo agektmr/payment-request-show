@@ -289,21 +289,6 @@ class DemoController {
     });
   }
 
-  onShippingAddressChange(event, previousDetails) {
-    const paymentRequest = event.target;
-    console.log(`Received a 'shippingaddresschange' event, change to: `,
-      paymentRequest.shippingAddress);
-
-    // The response needs to be details + at least one shipping option.
-    // If no shipping option is defined then the API treats it as the
-    // address is invalid.
-    // TODO: Can you define a custom error "We only ship to US addresses..."
-
-    // Assume every is valid in this demo.
-
-    event.updateWith(previousDetails);
-  }
-
   // This event has nothing to do with Payment Request - just to explain
   // the UI / behavior a little bit.
   onEnableShippingChange() {
@@ -317,6 +302,22 @@ class DemoController {
     }
   }
 
+  onShippingAddressChange(event, previousDetails) {
+    const paymentRequest = event.target;
+    console.log(`Received a 'shippingaddresschange' event, change to: `,
+      paymentRequest.shippingAddress);
+
+    // The response needs to be details + at least one shipping option.
+    // If no shipping option is defined then the API treats it as the
+    // address is invalid.
+
+    // TODO: Can you define a custom error "We only ship to US addresses..."
+
+    // Assume every address is valid in this demo.
+
+    event.updateWith(previousDetails);
+  }
+
   onShippingOptionChange(event, previousDetails) {
     const paymentRequest = event.target;
     console.log(`Received a 'shippingoptionchange' event, change to: `,
@@ -326,6 +327,14 @@ class DemoController {
       shippingOption.selected =
         shippingOption.id === paymentRequest.shippingOption;
     });
+
+    // NOTE: You would normally update the total at this point in a normal
+    // implementation, but to highlight that the PaymentRequest API
+    // does no calculations, we are leaving the title as the user has
+    // defined it.
+    //
+    // You would also need to include the shipping cost in the very initial
+    // total if you mark a shipping option as selected by default.
 
     event.updateWith(previousDetails);
   }
