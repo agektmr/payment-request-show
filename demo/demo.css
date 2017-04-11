@@ -1,0 +1,27 @@
+.hide {
+  display: none;
+}
+
+.supported-warning {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.demo-container.is-not-supported, .is-disabled {
+  opacity: 0.2;
+  touch-action: none;
+  pointer-events: none;
+}
+
+.center-selected {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+pre {
+  background-color: rgba(0, 0, 0, 0.04);
+  padding: 8px;
+  box-sizing: border-box;
+  overflow-x: auto;
+}

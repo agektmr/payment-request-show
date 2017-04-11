@@ -1,0 +1,13 @@
+{
+  "name": "payment-request-show",
+  "version": "0.0.0",
+  "description": "Payment Request API demo site.",
+  "scripts": {
+    "lint": "eslint '.'"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-google": "^0.7.1"
+  }
+}

@@ -1,315 +1,252 @@
+
 <!doctype html>
+<!--
+  Material Design Lite
+  Copyright 2015 Google Inc. All rights reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License
+-->
 <html lang="en">
-<head>
-  <title>Payment Request Interactive Demo</title>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A site that demonstrates the Payment Request API.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Payment Request API | Demo &amp; Info</title>
 
-  <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="libs/skeleton/css/normalize.css">
-  <link rel="stylesheet" href="libs/skeleton/css/skeleton.css">
 
-  <script src="libs/jquery/dist/jquery.min.js"></script>
-  <style>
-  .section {
-    margin: 2rem 0;
-  }
+    <link rel="shortcut icon" href="../favicon.ico">
 
-  .doublebutton {
-    width: 158px;
-    display: inline-block;
-    text-align: center;
-  }
-  #paybutton {
-    display: block;
-    width: 160px;
-    line-height: 60px;
-    height: 60px;
-    font-size: 24px;
-    margin: 10px auto;
-  }
-
-  #paybutton:disabled, #paybutton:disabled:hover {
-    opacity: 0.2;
-    background-color: rgb(0, 0, 0);
-  }
-
-@media (max-width:550px) {
-  #orders .eight {
-      width: 130px;
-    }
-  #orders .three {
-      width: 90px;
-    }
-  #orders .one {
-      width: 100px;
-    }
-  #orders input {
-    width: 90%;
-  }
-}
-</style>
-
-</head>
-<body>
-  <div class="section">
-    <div class="container">
-      <div class="row">
-        <div class="twelve columns">
-          <h2>Payment Request API</h2>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="demo.css">
+  </head>
+  <body>
+    <div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
+      <header class="demo-header mdl-layout__header mdl-layout__header--scroll mdl-color--grey-100 mdl-color-text--grey-800">
+        <div class="mdl-layout__header-row">
+          <span class="mdl-layout-title">PaymentRequest.show()</span>
+          <div class="mdl-layout-spacer"></div>
         </div>
-      </div>
-    </div>
-  </div>
+      </header>
+      <div class="demo-ribbon"></div>
+      <main class="demo-main mdl-layout__content">
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+          <div class="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
+            <section class="hide supported-warning">
+              <h4>Sorry - Not Available on this Browser</h4>
+              <p>Unfortunately the PaymentRequest API isn't available in your browser. Why not try this on Chrome for Android?</p>
+            </section>
 
-  <div class="section">
-    <div class="container">
-      <div class="row">
-        <div class="twelve columns" id="instruments">
-          <h4>Payment Methods</h4>
-          <div class="doublebutton"><button class="button-primary">mastercard</button></div>
-          <div class="doublebutton"><button>discover</button></div>
-          <div class="doublebutton"><button>unionpay</button></div>
-          <div class="doublebutton"><button>maestro</button></div>
-          <div class="doublebutton"><button>diners</button></div>
-          <div class="doublebutton"><button>amex</button></div>
-          <div class="doublebutton"><button class="button-primary">visa</button></div>
-          <div class="doublebutton"><button>jcb</button></div>
-          <div class="doublebutton"><button>mir</button></div>
-        </div>
-      </div>
-    </div>
-  </div>
+            <noscript>
+              <section class="no-js-warning">
+                <h4>Sorry - JavaScript is Required</h4>
+                <p>Unfortunately the PaymentRequest API requires JavaScript to work correctly.</p>
+              </section>
+            </noscript>
 
-  <div class="section" id="orders">
-    <div class="container">
-      <div class="row">
-        <div class="twelve columns">
-          <h4>Total Item</h4>
-        </div>
-      </div>
-      <div class="row">
-        <div class="seven columns">
-              <label for="total_label">Label</label>
-        </div>
-        <div class="three columns">
-              <label for="total_value">Amount</label>
-        </div>
-        <div class="two columns">
-              <label for="total_currency">Currency</label>
-        </div>
-      </div>
-      <span id="total_item">
-        <div id="display-item" class="row">
-          <div class="seven columns">
-              <input class="u-full-width" type="text" placeholder="Item Label" id="label" value="Total">
+            <section class="demo-container is-not-supported">
+              <h3>Payment Request API Demo</h3>
+
+              <p>This demo allows you to play with the various options and inputs you can provide to the PaymentRequest API.</p>
+              <p>Please note that this demo <strong>will not charge you</strong>. It'll go through the process and print the details at the bottom of this page.</p>
+              <p>The values will not add up in the total since the <strong>Payment Request API does no calculations</strong>.</p>
+
+              <h5>Select Supported Payment Methods</h5>
+              <p>The Payment Request API has a range of support payment methods, this demo currently only supports basic credit cards
+              but the Payment Request API can support third party payment processors.</p>
+
+              <div class="mdl-grid mdl-grid--no-spacing basic-card-payment-methods">
+                <div class="mdl-cell mdl-cell--6-col">
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-mastercard">
+                    <input type="checkbox" data-cardnetwork="mastercard" id="checkbox-mastercard" class="mdl-checkbox__input" checked>
+                    <span class="mdl-checkbox__label">mastercard</span>
+                  </label>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-discover">
+                    <input type="checkbox" data-cardnetwork="discover" id="checkbox-discover" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">discover</span>
+                  </label>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-unionpay">
+                    <input type="checkbox" data-cardnetwork="unionpay" id="checkbox-unionpay" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">unionpay</span>
+                  </label>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-maestro">
+                    <input type="checkbox" data-cardnetwork="maestro" id="checkbox-maestro" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">maestro</span>
+                  </label>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-diners">
+                    <input type="checkbox" data-cardnetwork="diners" id="checkbox-diners" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">diners</span>
+                  </label>
+                </div>
+                <div class="mdl-cell mdl-cell--6-col">
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-visa">
+                    <input type="checkbox" data-cardnetwork="visa" id="checkbox-visa" class="mdl-checkbox__input" checked>
+                    <span class="mdl-checkbox__label">visa</span>
+                  </label>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-amex">
+                    <input type="checkbox" data-cardnetwork="amex" id="checkbox-amex" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">amex</span>
+                  </label>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-jcb">
+                    <input type="checkbox" data-cardnetwork="jcb" id="checkbox-jcb" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">jcb</span>
+                  </label>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-mir">
+                    <input type="checkbox" data-cardnetwork="mir" id="checkbox-mir" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">mir</span>
+                  </label>
+                </div>
+              </div>
+
+              <h5>Order Summary</h5>
+              <p>The order summary is the value that is shown most prominently to the user, it should be treated as the
+                total of the users transaction.</p>
+              <p><em>Change the name, total and current to see how it effects the UI.</em></p>
+
+              <div class="mdl-grid mdl-grid--no-spacing">
+                <div class="mdl-cell mdl-cell--6-col">
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input summary-label" type="text" id="summary-label" value="Total">
+                    <label class="mdl-textfield__label" for="summary-label">Label</label>
+                  </div>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col">
+                  <div class="mdl-textfield mdl-js-textfield  mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input summary-amount" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="summary-amount" value="32">
+                    <label class="mdl-textfield__label" for="summary-amount">Amount</label>
+                    <span class="mdl-textfield__error">The value must be a number.</span>
+                  </div>
+                </div>
+                <div class="mdl-cell mdl-cell--2-col">
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input summary-currency" type="text" id="summary-currency" value="USD">
+                    <label class="mdl-textfield__label" for="summary-currency">Currency</label>
+                  </div>
+                </div>
+              </div>
+
+              <h5>Display Items</h5>
+              <p>It's possible to define any number of display items in the Payment Request UI.</p>
+              <p>It's up to you the developer to ensure that the list of items equals the total value shown in the order summary, the
+                Payment Request API performs no calculations.</p>
+              <p><em>Try adding both valid and invalid amounts in the display items and the summary total to see the differences.</em></p>
+
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add-display-item">
+                Add Display Item
+              </button>
+
+              <div class="display-items-container"></div>
+
+              <h5>Options</h5>
+              <p>The API can also request information for the user. The type of transaction will
+              determine will often dictate what is needed.</p>
+
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-buyer-name">
+                <input type="checkbox" id="checkbox-buyer-name" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">Buyer Name</span>
+              </label>
+
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-buyer-phone">
+                <input type="checkbox" id="checkbox-buyer-phone" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">Buyer Phone</span>
+              </label>
+
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-buyer-email">
+                <input type="checkbox" id="checkbox-buyer-email" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">Buyer Email</span>
+              </label>
+
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-shipping">
+                <input type="checkbox" id="checkbox-shipping" class="mdl-checkbox__input">
+                <span class="mdl-checkbox__label">Shipping</span>
+              </label>
+
+              <section class="depends-on-shipping-enabled">
+                <h6>Shipping Type</h6>
+                <div class="mdl-grid mdl-grid--no-spacing shipping-type-option">
+                  <div class="mdl-cell mdl-cell--6-col">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-nothing">
+                      <input type="radio" id="option-nothing" class="mdl-radio__button" name="options" value="default" checked>
+                      <span class="mdl-radio__label">No Type (i.e. default)</span>
+                    </label>
+                  </div>
+                  <div class="mdl-cell mdl-cell--6-col">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-shipping">
+                      <input type="radio" id="option-shipping" class="mdl-radio__button" name="options" value="shipping">
+                      <span class="mdl-radio__label">Shipping</span>
+                    </label>
+                  </div>
+                  <div class="mdl-cell mdl-cell--6-col">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-delivery">
+                      <input type="radio" id="option-delivery" class="mdl-radio__button" name="options" value="delivery">
+                      <span class="mdl-radio__label">Delivery</span>
+                    </label>
+                  </div>
+                  <div class="mdl-cell mdl-cell--6-col">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-pickup">
+                      <input type="radio" id="option-pickup" class="mdl-radio__button" name="options" value="pickup">
+                      <span class="mdl-radio__label">Pickup</span>
+                    </label>
+                  </div>
+                </div>
+
+                <h5>Shipping Options</h5>
+                <p>If you require shipping information (i.e. you have the shipping option ticked above) you can
+                provide a set of shipping options for the user to select from.</p>
+                <p>The UI will require the user to input an address to ship to which you listen to when it changes
+                and accept or deny the address as valid.</p>
+
+                <div class="shipping-opts-container"></div>
+
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored add-shipping-opt">
+                  Add Shipping Option
+                </button>
+              </section>
+
+              <h5>Buy Now</h5>
+              <p>When you are ready to request payment from the user, you call <code>paymentRequest.show()</code>, which is what
+              will happen when you click "Buy Now" below.</p>
+
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored buy-now-btn">
+                Buy Now
+              </button>
+
+              <h5>paymentRequest.show() Result</h5>
+              <p>If you complete a "purchase" with the payment request API, the result will be printed below.</p>
+
+              <div class="payment-request-result-container">
+                <pre>Press the "Buy Now" button.</pre>
+              </div>
+
+            </section>
           </div>
-          <div class="three columns">
-              <input class="u-full-width" type="number" placeholder="32.00" id="value" value="32.00">
+        </div>
+        <footer class="demo-footer mdl-mini-footer">
+          <div class="mdl-mini-footer--left-section">
+            <ul class="mdl-mini-footer--link-list">
+              <li><a href="https://github.com/madmath/payment-request-show">Github</a></li>
+            </ul>
           </div>
-          <div class="two columns">
-              <input class="u-full-width" type="text" placeholder="USD" id="currency" value="USD">
-          </div>
-        </div>
-      </span>
-      <div class="row">
-        <div class="three columns">
-          <h4>Display Items</h4>
-        </div>
-        <div class="nine columns">
-          <button class="button-primary" onclick="addOrderItem();">add</button>
-        </div>
-      </div>
-      <span id="order_items"></span>
+        </footer>
+      </main>
     </div>
-  </div>
-
-  <div class="section">
-    <div class="container">
-      <div class="row">
-        <div class="twelve columns" id="options">
-          <h4>Options</h4>
-          <div class="options-request">
-            <div class="doublebutton"><button class="button-primary">Name</button></div>
-            <div class="doublebutton"><button class="button-primary">Phone</button></div>
-            <div class="doublebutton"><button class="button-primary">Email</button></div>
-            <div class="doublebutton"><button class="button-primary">Shipping</button></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="section">
-    <div class="container">
-      <div class="row">
-        <div class="four columns">
-          <h4>Shipping Options</h4>
-        </div>
-        <div class="three columns">
-          <select id="shipping-type">
-            <option value="shipping">shipping</option>
-            <option value="delivery">delivery</option>
-            <option value="pickup">pickup</option>
-            <option value="invalid_type">invalid_type</option>
-          </select>
-        </div>
-        <div class="five columns">
-          <button class="button-primary" onclick="addShippingOption();">add</button>
-        </div>
-      </div>
-      <span id="shipping-options"></span>
-    </div>
-  </div>
-  <div class="section">
-    <div class="container">
-      <div class="row">
-        <div class="twelve columns">
-          <button disabled class="button button-primary" id="paybutton" onclick="onPayButtonClick()">pay</a>
-        </div>
-      </div>
-      <div class="row">
-        <div class="twelve columns">
-          <h5>Result</h5>
-          <pre><code id="result"></code></pre>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-<script>
-  var displayItemTemplate;
-  var currentShippingOptionID = 0;
-
-  function addOrderItem() {
-    $("#order_items").append(displayItemTemplate);
-  }
-
-  function addShippingOption() {
-    var element = $(`
-      <div class="shipping-option" class="row">
-        <div class="three columns">
-            <input class="u-full-width shipping-option-id" type="text" placeholder="ID">
-        </div>
-        <div class="four columns">
-            <input class="u-full-width shipping-option-label" type="text" placeholder="label">
-        </div>
-        <div class="three columns">
-            <input class="u-full-width shipping-option-amount" type="number" placeholder="2.00" value="2.00">
-        </div>
-        <div class="doublebutton"><button class="button-primary" onclick="$(this).toggleClass('button-primary');">Selected</button></div>
-      </div>
-    `);
-    element.find(".shipping-option-id").attr("value", ++currentShippingOptionID);
-    element.find(".shipping-option-label").attr("value", "shipping-option-label-" + currentShippingOptionID);
-    $("#shipping-options").append(element);
-  }
-
-  function removeThisItem(ev) {
-    var obj = $(ev.parentNode.parentNode);
-    obj.remove();
-  }
-
-  function onPayButtonClick() {
-    // Supported payment methods
-    var methods = [];
-    $("#instruments div button.button-primary").each(function(idx) {
-      methods.push($(this).text());
-    });
-    var supportedInstruments = [{ supportedMethods: methods }];
-
-    // Checkout details
-    var di = [];
-    $("#order_items").children('#display-item').each(function(idx) {
-      var v = $(this).find("#value").val();
-      if (v === undefined) return;
-      di.push({
-          label: $(this).find("#label").val(),
-          amount: { currency: $(this).find("#currency").val(), value: v}});
-    });
-
-    var shipping_options = [];
-    $("#shipping-options").children(".shipping-option").each(function(idx) {
-      var option_id = $(this).find(".shipping-option-id").val();
-      var option_label = $(this).find(".shipping-option-label").val();
-      var option_amount = $(this).find(".shipping-option-amount").val();
-      var option_selected = $(this).find("button").hasClass("button-primary");
-
-      shipping_options.push({
-        id: option_id,
-        label: option_label,
-        amount: {
-          currency: $("#currency").val(), value: option_amount
-        },
-        selected: option_selected
-      })
-    });
-
-    var details = {
-      displayItems: di,
-      shippingOptions: shipping_options,
-      total: {
-        label: $("#total_item").find("#label").val(),
-        amount: { currency: $("#total_item").find("#currency").val(),
-                  value : $("#total_item").find("#value").val() }
-      }
-    };
-
-    var shipping_type = document.getElementById("shipping-type");
-    var options = {
-      shippingType: shipping_type.options[shipping_type.selectedIndex].value
-    };
-
-    $("#options .options-request button.button-primary").each(function(idx) {
-      var option_text = $(this).text();
-      if (option_text == "Name")
-        options.requestPayerName = true;
-      if (option_text == "Phone")
-        options.requestPayerPhone = true;
-      if (option_text == "Email")
-        options.requestPayerEmail = true;
-      if (option_text == "Shipping")
-        options.requestShipping = true;
-    });
-
-    // 1. Create a `PaymentRequest` instance
-    var request = new PaymentRequest(supportedInstruments, details, options);
-
-    // 2. Show the native UI with `.show()`
-    request.show()
-    // 3. Process the payment
-    .then(result => {
-      var data = {};
-      data.methodName = result.methodName;
-      data.details    = result.details;
-
-      $("#result").text(JSON.stringify(data, null, 2));
-      return result.complete('success');
-    })
-    .catch(() => {
-    });
-  };
-
-$(() => {
-  if (!window.PaymentRequest) {
-    console.warn('Sorry - This demo requires the PaymentRequest API which isn\'t available in this browser');
-    return;
-  }
-
-  $("#paybutton")[0].disabled = false;
-
-  $("#instruments div button").click((ev) => {
-    $(ev.target).toggleClass("button-primary");
-  });
-
-  $("#options div button").click((ev) => {
-    $(ev.target).toggleClass("button-primary");
-  });
-
-  displayItemTemplate = document.getElementById("total_item")
-      .innerHTML.replace('value="Total"', 'value="Item"');
-});
-</script>
-</body>
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="shipping-name-generator.js"></script>
+    <script src="demo.js"></script>
+  </body>
 </html>

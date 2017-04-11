@@ -1,158 +1,104 @@
+
 <!doctype html>
+<!--
+  Material Design Lite
+  Copyright 2015 Google Inc. All rights reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License
+-->
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="description" content="A site that demonstrates the Payment Request API.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <title>Payment Request API</title>
 
-    <!-- Add to homescreen for Chrome on Android -->
-    <!--meta name="mobile-web-app-capable" content="yes"-->
-    <!--link rel="icon" sizes="192x192" href="images/android-desktop.png"-->
+    <title>Payment Request API | Demo &amp; Info</title>
 
-    <!-- Add to homescreen for Safari on iOS -->
-<!--     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
-    <link rel="apple-touch-icon-precomposed" href="images/ios-desktop.png">
- -->
-    <!-- Tile icon for Win8 (144x144 + tile color) -->
-<!--     <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
-    <meta name="msapplication-TileColor" content="#3372DF"> -->
 
-    <link rel="shortcut icon" href="assets/favicon.ico">
-
-    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
-    <!--
-    <link rel="canonical" href="http://www.example.com/">
-    -->
+    <link rel="shortcut icon" href="favicon.ico">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-pink.min.css">
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
-    <script>
-    /* Ugly hacks to get tab navigation working... */
-    function updateActiveTabs() {
-        var panelElements = document.getElementsByClassName('mdl-layout__tab-panel');
-        for (var i = 0; i < panelElements.length; i++)
-          panelElements.item(i).classList.remove('is-active');
-
-        var newActiveElement = document.getElementById(window.location.hash.slice(1));
-        newActiveElement.classList.add('is-active');
-    }
-    document.addEventListener('DOMContentLoaded', function(e) {
-        if (window.location.hash) {
-          updateActiveTabs();
-        }
-    });
-    window.onhashchange = function() { updateActiveTabs(); }
-    </script>
-    <style>
-    #view-source {
-      position: fixed;
-      display: block;
-      right: 0;
-      bottom: 0;
-      margin-right: 40px;
-      margin-bottom: 40px;
-      z-index: 900;
-    }
-    </style>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="styles/main.css">
   </head>
-  <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-      <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
-        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
-        </div>
-        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
-          <h3>Payment Request API</h3>
-        </div>
-        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
-        </div>
-        <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
-          <a href="/#overview" class="mdl-layout__tab">Overview</a>
-          <a href="/#summary" class="mdl-layout__tab">1-minute Summary</a>
-          <a href="/#tryit" class="mdl-layout__tab">Try Payment Request</a>
-          <!--a href="/#integration" class="mdl-layout__tab">Integration Guide</a-->
+  <body>
+    <div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
+      <header class="demo-header mdl-layout__header mdl-layout__header--scroll mdl-color--grey-100 mdl-color-text--grey-800">
+        <div class="mdl-layout__header-row">
+          <span class="mdl-layout-title">PaymentRequest.show()</span>
+          <div class="mdl-layout-spacer"></div>
         </div>
       </header>
-      <main class="mdl-layout__content">
-        <div class="mdl-layout__tab-panel is-active" id="overview">
-          <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-            <div class="mdl-card mdl-cell mdl-cell--12-col">
-              <div class="mdl-card__supporting-text">
-                <h4>What is Payment Request?</h4>
-                Payment Request is a new way for merchants to accept payments online. It is integrated in most major browsers, and greatly simplifies the checkout experience for users.
-              </div>
-              <div class="mdl-card__actions">
-                <a href="/#summary" class="mdl-button">Read the 1-minute summary</a>
-              </div>
-            </div>
-          </section>
-          <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-            <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
-              <i class="material-icons">play_circle_filled</i>
-            </header>
-            <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
-              <div class="mdl-card__supporting-text">
-                <h4>Watch a Web Payments Presentation</h4>
-                At Chrome's Developer Summit in 2016, Zach Koch presented Payment Request and why it's a big deal for payments online.
-              </div>
-              <div class="mdl-card__actions">
-                <a href="https://www.youtube.com/watch?v=U0LkQijSeko" class="mdl-button">Watch on YouTube</a>
-              </div>
-            </div>
-          </section>
+      <div class="demo-ribbon"></div>
+      <main class="demo-main mdl-layout__content">
+        <div class="demo-container mdl-grid">
+          <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+          <div class="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
+            <h3>What is Payment Request?</h3>
+
+            <p>Payment Request is a new way for merchants to accept payments online. It is integrated in most major browsers, and greatly simplifies the checkout experience for users.</p>
+
+            <div style="position:relative;height:0;padding-bottom:56.25%"><iframe src="https://www.youtube.com/embed/U0LkQijSeko?rel=0&showinfo=0&autohide=1" width="640" height="360" frameborder="0" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen></iframe></div>
+
+            <h3>1 Minute Summary</h3>
+
+            <p>The Payment Request API is a new W3C web standard being introduced to make payments easier on a merchant website. It replaces the traditional billing address, shipping address and credit card forms with a browser dialog to efficiently get data from the user to the merchant.</p>
+
+            <p>The following is an example end-to-end checkout flow which takes advantage of Payment Request API with the <a href="https://en-ca.wordpress.org/plugins/woocommerce-gateway-stripe/">WooCommerce/Stripe plugin</a>.</p>
+
+            <p><img style="display: block; margin: 0 auto" class="outline" src="images/pr-woocommerce.gif" width="360px" height="640px"></p>
+
+            <h3>Browser Support</h3>
+
+            <p>Payment Request API is being implemented by most major browsers (Chrome, Edge, Firefox, Opera, and others).</p>
+
+            <p class="ciu_embed" data-feature="payment-request" data-periods="future_2,future_1,current,past_1">
+              <a href="http://caniuse.com/#feat=payment-request">Can I Use payment-request?</a> Data on support for the payment-request feature across the major browsers from caniuse.com.
+            </p>
+
+            <h3>Try it yourself</h3>
+
+            <h5>API Demo</h5>
+
+            <p>This site also has a demo that allows you to play with the various options available to the API.</p>
+
+            <a href="demo/" class="mdl-button mdl-js-button mdl-button--raised">
+              Try it Out
+            </a>
+
+            <h5>WooCommerce Demo</h5>
+
+            <p>The WooCommerce plugin for WordPress supports Payment Request through its Stripe gateway.</p>
+
+            <a href="https://woocommerce.paymentrequest.show/" class="mdl-button mdl-js-button mdl-button--raised">
+              Try it Out
+            </a>
+          </div>
         </div>
-        <div class="mdl-layout__tab-panel" id="tryit">
-        <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-            <div class="mdl-card mdl-cell mdl-cell--12-col">
-              <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
-                <h4 class="mdl-cell mdl-cell--12-col">Try Payment Request</h4>
-                <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
-                  <div class="section__circle-container__circle mdl-color--primary"></div>
-                </div>
-                <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
-                  <h5><a href="https://woocommerce.paymentrequest.show">WooCommerce demo site</a></h5>
-                  The WooCommerce plugin for WordPress supports Payment Request through its Stripe gateway.
-                </div>
-                <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
-                  <div class="section__circle-container__circle mdl-color--primary"></div>
-                </div>
-                <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
-                  <h5><a href="https://googlechrome.github.io/samples/paymentrequest/">Payment Request samples</a></h5>
-                  Various Payment Request samples are available for developers wanting to integrate Payment Request directly into their site.
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-        <div class="mdl-layout__tab-panel" id="summary">
-          <section class="section--center mdl-grid mdl-grid--no-spacing">
-            <div class="mdl-cell mdl-cell--12-col">
-              <h4>1-minute Summary of Payment Request API</h4>
-              The Payment Request API is a new W3C web standard being introduced to make payments easier on a merchant website. <b>It replaces the traditional billing address, shipping address and credit card forms</b> with a browser dialog to <b>efficiently get data from the user to the merchant</b>.
-
-              <h5>Show me!</h5>
-              <p>See the following end-to-end checkout flow which takes advantage of Payment Request API with the <a href="https://en-ca.wordpress.org/plugins/woocommerce-gateway-stripe/">WooCommerce/Stripe plugin</a>.
-              <p><img style="display: block; margin: 0 auto" src="/assets/pr-woocommerce.gif" width="360px" height="640px"></p>
-
-              <h5>Browser support</h5>
-              <p>Payment Request API is being supported by most major browsers (Chrome, Edge, Firefox, Opera, and others). See the <a href="http://caniuse.com/#feat=payment-request">Can I use... website</a> for up to date information.</p>
-
-              <h5>Try it yourself</h5>
-              <p>See <a href="/#tryit">several example sites that use Payment Request API</a> and try it on a supported browser!</p>
-
-              <!--h5 id="howtogetit">How to enable it on your site</h5>
-              <p>Several ecommerce solutions support Payment Request API already. See our <a href="/#integration">Integration Guide</a> for instructions on how to add support to your site.</p-->
-
-            </div>
-          </section>
-        </div>
+        <footer class="demo-footer mdl-mini-footer">
+          <div class="mdl-mini-footer--left-section">
+            <ul class="mdl-mini-footer--link-list">
+              <li><a href="https://github.com/madmath/payment-request-show">Github</a></li>
+            </ul>
+          </div>
+        </footer>
       </main>
     </div>
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+    <!-- Used for the caniuse.com embed. See https://caniuse.bitsofco.de/ for more info -->
+    <script src="//cdn.jsdelivr.net/caniuse-embed/1.0.1/caniuse-embed.min.js"></script>
   </body>
 </html>
