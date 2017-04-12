@@ -218,6 +218,21 @@
                 </button>
               </section>
 
+              <h5>Can Make Payment</h5>
+              <p>You can call <code>paymentRequest.canMakePayment()</code> before calling <code>paymentRequest.show()</code>
+              to determine if the PaymentRequest object can be used to make a payment.</p>
+
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored can-make-payment-btn">
+                Can Make Payment
+              </button>
+
+              <h5>paymentRequest.canMakePayment() Result</h5>
+              <p>If you call <code>canMakePayment()</code>, the result will be printed below.</p>
+
+              <div class="can-make-payment-result-container">
+                <pre>Press the "Can Make Payment" button.</pre>
+              </div>
+
               <h5>Buy Now</h5>
               <p>When you are ready to request payment from the user, you call <code>paymentRequest.show()</code>, which is what
               will happen when you click "Buy Now" below.</p>
