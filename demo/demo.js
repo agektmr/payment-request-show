@@ -80,6 +80,10 @@ class DemoController {
     const addShippingOptBtn = document.querySelector('.add-shipping-opt');
     addShippingOptBtn.addEventListener('click', () => this.addShippingOpt());
 
+    const canMakePaymentBtn = document.querySelector('.can-make-payment-btn');
+    canMakePaymentBtn.addEventListener('click',
+                                       () => this.canMakePaymentClick());
+
     const buyNowBtn = document.querySelector('.buy-now-btn');
     buyNowBtn.addEventListener('click', () => this.buyNowClick());
   }
@@ -116,7 +120,7 @@ class DemoController {
     itemsContainer.appendChild(newDisplayItem);
   }
 
-  buyNowClick() {
+  _createPaymentRequest() {
     // Supported payment methods
     const supportedCardNetworks = [];
     const basicCardCheckboxes = document.querySelectorAll(
@@ -260,6 +264,30 @@ class DemoController {
       (event) => this.onShippingOptionChange(event, details)
     );
 
+    return paymentRequest;
+  }
+
+  canMakePaymentClick() {
+    var paymentRequest = this._createPaymentRequest();
+
+    paymentRequest.canMakePayment()
+    .then((result) => {
+      const cmpResultContainer =
+        document.querySelector('.can-make-payment-result-container pre');
+      cmpResultContainer.textContent = JSON.stringify(result, null, 2);
+    })
+    .catch((err) => {
+      console.group(
+        'The promise from `paymentRequest.canMakePayment()` was rejected.');
+      console.warn(`The error message received was: '${err.message}'`);
+      console.error(err);
+      console.groupEnd();
+    });
+  }
+
+  buyNowClick() {
+    var paymentRequest = this._createPaymentRequest();
+
     paymentRequest.show()
     .then((result) => {
       // Process the payment
@@ -280,7 +308,7 @@ class DemoController {
     })
     .catch((err) => {
       console.group(
-        'The promise from `paymentRequest.show()` rejected.');
+        'The promise from `paymentRequest.show()` was rejected.');
       console.warn('This is normally due to the user closing or cancelling ' +
         'the payment request UI.');
       console.warn(`The error message received was: '${err.message}'`);
