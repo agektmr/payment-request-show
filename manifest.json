@@ -1,0 +1,13 @@
+{
+  "name": "PaymentRequest.show()",
+  "short_name": "PR.show()",
+  "icons": [{
+    "src": "images/payment_icon_144px.png",
+    "sizes": "144x144",
+    "type": "image/png"
+    }],
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#3F51B5"
+}
