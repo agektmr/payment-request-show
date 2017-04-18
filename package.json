@@ -3,11 +3,14 @@
   "version": "0.0.0",
   "description": "Payment Request API demo site.",
   "scripts": {
-    "lint": "eslint '.'"
+    "lint": "eslint '.'",
+    "gulp": "gulp generate-service-worker"
   },
   "license": "Apache-2.0",
   "devDependencies": {
     "eslint": "^3.19.0",
-    "eslint-config-google": "^0.7.1"
+    "eslint-config-google": "^0.7.1",
+    "gulp": "^3.9.1",
+    "sw-precache": "^5.1.0"
   }
 }
