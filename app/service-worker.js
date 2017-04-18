@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["/demo/demo.css","7a515aaf3c344269d84c801ed80311c9"],["/demo/demo.js","56edc523a0f97ce378f23cadafa77797"],["/demo/index.html","9e54d330be72d82479dc73835585fef1"],["/demo/shipping-name-generator.js","1366cf79731d50362927fa1e1584c690"],["/images/payment_icon_144px.png","a655eccde0011236477da997e09812e0"],["/index.html","466a9d2029b84e85d1712975e4ada0d3"],["/js/material.min.js","240538c21d8b76e56153cae9d66b4524"],["/service-worker-registration.js","0b4c35226075896152de214f8860b76e"],["/styles/main.css","d4fb4619d67f4bdbb9a9e4d775ecec2a"],["/styles/material.indigo-pink.min.css","5c74be021c1cc26962b0f7f3326125c8"]];
+var precacheConfig = [["/demo/demo.css","7a515aaf3c344269d84c801ed80311c9"],["/demo/demo.js","56edc523a0f97ce378f23cadafa77797"],["/demo/index.html","69c80c3f36e3c103723539697ff80bb5"],["/demo/shipping-name-generator.js","1366cf79731d50362927fa1e1584c690"],["/images/payment_icon_144px.png","a655eccde0011236477da997e09812e0"],["/index.html","376fb42ff9083e8e4243b387d26e7c01"],["/js/material.min.js","240538c21d8b76e56153cae9d66b4524"],["/service-worker-registration.js","0b4c35226075896152de214f8860b76e"],["/styles/main.css","d4fb4619d67f4bdbb9a9e4d775ecec2a"],["/styles/material.indigo-pink.min.css","5c74be021c1cc26962b0f7f3326125c8"]];
 var cacheName = 'sw-precache-v3--' + (self.registration ? self.registration.scope : '');
 
 
