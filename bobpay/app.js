@@ -3,15 +3,16 @@
 let express = require('express');
 let app = express();
 
-/**
- * Payment app.
- */
-app.head('/pay', function(req, res) {
+// All of our paths have the Link header.
+app.use(function(req, res, next) {
   res.status(200).links({
     'payment-method-manifest':
         'https://rsolomakhin.github.io/bobpay/payment-manifest.json',
-  }).end();
+    });
+    return next();
 });
+// We are mostly a static website.
+app.use(express.static('public'));
 
 /**
  * Starts the server.
