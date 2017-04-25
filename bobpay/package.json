@@ -1,0 +1,23 @@
+{
+  "name": "BobPay",
+  "description": "A web payments BobPay demo",
+  "version": "1.0.0",
+  "author": "Google Inc.",
+  "contributors": [
+    {
+      "name": "Rouslan Solomakhin",
+      "email": "rouslan@google.com"
+    },
+    {
+      "name": "Mathieu Perreault",
+      "email": "mathp@google.com"
+    }
+  ],
+  "license": "Apache Version 2.0",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
