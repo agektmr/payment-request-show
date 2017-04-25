@@ -1,0 +1,15 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "EQHXZ8M8AV.com.google.Bobpay.dev",
+                "paths": [ "/pay"]
+            },
+            {
+                "appID": "EQHXZ8M8AV.com.google.Bobpay.enterprise",
+                "paths": [ "/pay" ]
+            }
+        ]
+    }
+}
