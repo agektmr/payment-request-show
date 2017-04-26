@@ -95,9 +95,10 @@ class DemoController {
     const newDisplayItem = documentHack.firstChild;
 
     const mdlElements = newDisplayItem.querySelectorAll(`.needs-mdl-upgrade`);
-    mdlElements.forEach((mdlElement) => {
-      window.componentHandler.upgradeElement(mdlElement);
-    });
+	for (var i = 0; i < mdlElements.length; i++) {
+	  var mdlElement = mdlElements[i];
+	  window.componentHandler.upgradeElement(mdlElement);
+	}
 
     const itemsContainer = document.querySelector('.display-items-container');
     itemsContainer.appendChild(newDisplayItem);
@@ -112,9 +113,10 @@ class DemoController {
     const newDisplayItem = documentHack.firstChild;
 
     const mdlElements = newDisplayItem.querySelectorAll(`.needs-mdl-upgrade`);
-    mdlElements.forEach((mdlElement) => {
-      window.componentHandler.upgradeElement(mdlElement);
-    });
+	for (var i = 0; i < mdlElements.length; i++) {
+	  var mdlElement = mdlElements[i];
+	  window.componentHandler.upgradeElement(mdlElement);
+	}
 
     const itemsContainer = document.querySelector('.shipping-opts-container');
     itemsContainer.appendChild(newDisplayItem);
@@ -125,12 +127,13 @@ class DemoController {
     const supportedCardNetworks = [];
     const basicCardCheckboxes = document.querySelectorAll(
       '.basic-card-payment-methods input[type=\'checkbox\']');
-    basicCardCheckboxes.forEach((basicCardCheckbox) => {
-      if (basicCardCheckbox.checked &&
-        basicCardCheckbox.dataset.cardnetwork) {
-        supportedCardNetworks.push(basicCardCheckbox.dataset.cardnetwork);
-      }
-    });
+	for (var i = 0; i < basicCardCheckboxes.length; i++) {
+		var basicCardCheckbox = basicCardCheckboxes[i];
+		if (basicCardCheckbox.checked &&
+			basicCardCheckbox.dataset.cardnetwork) {
+			supportedCardNetworks.push(basicCardCheckbox.dataset.cardnetwork);
+		}
+	}
     const basicCards = {
       supportedMethods: ['basic-card'],
       data: {
@@ -141,29 +144,30 @@ class DemoController {
     const displayItemsFromUI = [];
     const displayItemElements =
       document.querySelectorAll('.display-item-wrapper');
-    displayItemElements.forEach((displayItemElement) => {
-      const labelValue =
+	for (var i = 0; i < displayItemElements.length; i++) {
+		var displayItemElement = displayItemElements[i];
+		const labelValue =
         displayItemElement.querySelector('.display-item-label').value;
-      const amountValue =
-        displayItemElement.querySelector('.display-item-amount').value;
-      const currencyValue =
-        displayItemElement.querySelector('.display-item-currency').value;
+	    const amountValue =
+		  displayItemElement.querySelector('.display-item-amount').value;
+	    const currencyValue =
+		  displayItemElement.querySelector('.display-item-currency').value;
 
-      if (!labelValue || labelValue.length === 0 ||
-        !amountValue || amountValue.length === 0) {
-        console.warn('Found a display item without a label and / ' +
-          'or amount value so excluding it from the results.');
-        return;
-      }
+	    if (!labelValue || labelValue.length === 0 ||
+		  !amountValue || amountValue.length === 0) {
+		  console.warn('Found a display item without a label and / ' +
+		    'or amount value so excluding it from the results.');
+		  return;
+	    }
 
-      displayItemsFromUI.push({
-        label: labelValue,
-        amount: {
-          currency: currencyValue,
-          value: amountValue,
-        },
-      });
-    });
+	    displayItemsFromUI.push({
+		  label: labelValue,
+		  amount: {
+		    currency: currencyValue,
+		    value: amountValue,
+		  },
+	    });
+	}
 
     const totalLabelValue =
       document.querySelector('.summary-label').value;
@@ -183,7 +187,8 @@ class DemoController {
     const shippingOptionsFromUI = [];
     const shippingOptionElements =
       document.querySelectorAll('.shipping-options-wrapper');
-    shippingOptionElements.forEach((shippingOptionElement) => {
+	for (var i = 0; i < shippingOptionElements.length; i++) {
+	  var shippingOptionElement = shippingOptionElements[i];
       const idValue =
         shippingOptionElement.querySelector('.shipping-opt-id').value;
       const labelValue =
@@ -211,7 +216,7 @@ class DemoController {
         },
         selected: selectedValue,
       });
-    });
+    }
 
     const options = {
       requestPayerName: false,
@@ -350,11 +355,11 @@ class DemoController {
     const paymentRequest = event.target;
     console.log(`Received a 'shippingoptionchange' event, change to: `,
       paymentRequest.shippingOption);
-
-    previousDetails.shippingOptions.forEach((shippingOption) => {
-      shippingOption.selected =
+	for (var i = 0; i < previousDetails.shippingOptions.length; i++) {
+	  var shippingOption = previousDetails.shippingOptions[i];
+	  shippingOption.selected =
         shippingOption.id === paymentRequest.shippingOption;
-    });
+	}
 
     // NOTE: You would normally update the total at this point in a normal
     // implementation, but to highlight that the PaymentRequest API
