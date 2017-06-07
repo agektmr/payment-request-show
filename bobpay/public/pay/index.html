@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#db5945">
+    <title>Bobpay confirmation page</title>
+  </head>
+
+  <body>
+    <center>
+      <header>
+        <h1> Bobpay web app payment confirmation </h1>
+      </header>
+
+      <button id="pay" type="button" onclick="pay()">Pay</button>
+      <button id="cancel" type="button" onclick="cancel()">Cancel</button>
+    </center>
+
+    <script>
+    let received_payment_request = false;
+    let payment_request_client;
+
+    navigator.serviceWorker.addEventListener('message', e => {
+      received_payment_request = true;
+      console.log('payment app confirmation page received', e);
+      payment_request_client = e.source;
+    });
+    navigator.serviceWorker.controller.postMessage('payment_app_window_ready');
+
+    function pay() {
+      if(!received_payment_request) return;
+
+      var paymentAppResponse = {
+        methodName: "https://emerald-eon.appspot.com/bobpay",
+        details: {
+          id: "123456"
+        }
+      };
+
+      payment_request_client.postMessage(paymentAppResponse);
+      window.close();
+    }
+
+    function cancel() {
+      if(!received_payment_request) return;
+
+      payment_request_client.postMessage("The payment request is cancelled by user");
+      window.close();
+    }
+    </script>
+  </body>
+</html>
