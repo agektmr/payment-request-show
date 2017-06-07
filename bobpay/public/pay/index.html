@@ -4,32 +4,46 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#db5945">
-    <title>Bobpay confirmation page</title>
+    <title>You are paying with BobPay</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link href="/css/new-age.min.css" rel="stylesheet">
   </head>
 
   <body>
-    <center>
       <header>
-        <h1> Bobpay web app payment confirmation </h1>
+        <div class="container"><h1>Bobpay</h1></div>
       </header>
 
-      <button id="pay" type="button" onclick="pay()">Pay</button>
-      <button id="cancel" type="button" onclick="cancel()">Cancel</button>
-    </center>
+      <div class="container">
+          <h1>Payment Details</h1>
+          <pre style="white-space: pre-wrap;" id="details"></pre>
+      </div>
+
+      <div class="container">
+        <button id="pay" type="button" class="btn btn-primary" onclick="pay()">Pay</button>
+        <button id="cancel" type="button" class="btn btn-default" onclick="cancel()">Cancel</button>
+      </div>
 
     <script>
-    let received_payment_request = false;
-    let payment_request_client;
+    let paymentRequestClient;
 
     navigator.serviceWorker.addEventListener('message', e => {
-      received_payment_request = true;
-      console.log('payment app confirmation page received', e);
-      payment_request_client = e.source;
+      paymentRequestClient = e.source;
+      document.getElementById('details').innerHTML = JSON.stringify(e.data, undefined, 2);
     });
     navigator.serviceWorker.controller.postMessage('payment_app_window_ready');
 
     function pay() {
-      if(!received_payment_request) return;
+      if(!paymentRequestClient) return;
 
       var paymentAppResponse = {
         methodName: "https://emerald-eon.appspot.com/bobpay",
@@ -38,14 +52,14 @@
         }
       };
 
-      payment_request_client.postMessage(paymentAppResponse);
+      paymentRequestClient.postMessage(paymentAppResponse);
       window.close();
     }
 
     function cancel() {
-      if(!received_payment_request) return;
+      if(!paymentRequestClient) return;
 
-      payment_request_client.postMessage("The payment request is cancelled by user");
+      paymentRequestClient.postMessage("The payment request is cancelled by user");
       window.close();
     }
     </script>

@@ -1,14 +1,24 @@
-console.log("Running bobpay service worker");
 self.addEventListener('paymentrequest', function(e) {
   let payment_app_window = undefined;
   let window_ready = false;
-  let payment_request_event = e.data;
-  console.log("sw-received", e.data);
+  //let payment_request_event = e;
 
   e.respondWith(new Promise(function(resolve, reject) {
     let maybeSendPaymentRequest = function() {
-      if (payment_app_window && window_ready)
-        payment_app_window.postMessage(payment_request_event);
+      if (payment_app_window && window_ready) {
+        // Copy the relevant data from the paymentrequestevent to
+        // send to the payment app confirmation page.
+        // TODO(madmath): This doesn't work.
+        // var paymentRequest = {
+        //   'methodData': payment_request_event.methodData,
+        //   'modifiers': payment_request_event.modifiers,
+        //   'paymentRequestId': payment_request_event.paymentRequestId,
+        //   'paymentRequestOrigin': payment_request_event.paymentRequestOrigin,
+        //   'topLevelOrigin': payment_request_event.topLevelOrigin,
+        //   'total': payment_request_event.total
+        // };
+        payment_app_window.postMessage(e.total);
+      }
     };
 
     self.addEventListener('message', listener = function(e) {
