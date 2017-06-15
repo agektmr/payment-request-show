@@ -4,11 +4,11 @@
         "details": [
             {
                 "appID": "EQHXZ8M8AV.com.google.Bobpay.dev",
-                "paths": [ "/webpay"]
+                "paths": [ "/pay"]
             },
             {
                 "appID": "4ANB9W7R3P.com.google.Bobpay.enterprise",
-                "paths": [ "/webpay" ]
+                "paths": [ "/pay" ]
             }
         ]
     }
