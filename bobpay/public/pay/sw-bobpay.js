@@ -2,7 +2,7 @@ let payment_request_event = undefined;
 let payment_request_resolver = undefined;
 
 self.addEventListener('paymentrequest', function(e) {
-  payment_request_event = e.data;
+  payment_request_event = e;
 
   payment_request_resolver = new PromiseResolver();
   e.respondWith(payment_request_resolver.promise);
@@ -38,7 +38,12 @@ function sendPaymentRequest() {
     for(var i = 0; i < clientList.length; i++) {
       // Might do additional communications or checks to make sure we are posting
       // to right window.
-      clientList[i].postMessage(payment_request_event);
+
+      // Copy the relevant data from the paymentrequestevent to
+      // send to the payment app confirmation page.
+      // Note that the entire PaymentRequestEvent can not be passed through
+      // postMessage directly since it can not be cloned.
+      clientList[i].postMessage(payment_request_event.total);
     }
   });
 }
