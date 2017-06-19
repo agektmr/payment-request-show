@@ -1,48 +1,80 @@
+let payment_request_event = undefined;
+let payment_request_resolver = undefined;
+
 self.addEventListener('paymentrequest', function(e) {
-  let payment_app_window = undefined;
-  let window_ready = false;
-  //let payment_request_event = e;
+  payment_request_event = e;
 
-  e.respondWith(new Promise(function(resolve, reject) {
-    let maybeSendPaymentRequest = function() {
-      if (payment_app_window && window_ready) {
-        // Copy the relevant data from the paymentrequestevent to
-        // send to the payment app confirmation page.
-        // TODO(madmath): This doesn't work.
-        // var paymentRequest = {
-        //   'methodData': payment_request_event.methodData,
-        //   'modifiers': payment_request_event.modifiers,
-        //   'paymentRequestId': payment_request_event.paymentRequestId,
-        //   'paymentRequestOrigin': payment_request_event.paymentRequestOrigin,
-        //   'topLevelOrigin': payment_request_event.topLevelOrigin,
-        //   'total': payment_request_event.total
-        // };
-        payment_app_window.postMessage(e.total);
-      }
-    };
+  payment_request_resolver = new PromiseResolver();
+  e.respondWith(payment_request_resolver.promise);
 
-    self.addEventListener('message', listener = function(e) {
-      if (e.data == "payment_app_window_ready") {
-        window_ready = true;
-        maybeSendPaymentRequest();
-        return;
-      }
-
-      self.removeEventListener('message', listener);
-      if(e.data.methodName) {
-        resolve(e.data);
-      } else {
-        reject(e.data);
-      }
-    });
-
-    e.openWindow("https://bobpay.xyz/pay")
-    .then(window_client => {
-      payment_app_window = window_client;
-      maybeSendPaymentRequest();
-    })
-    .catch(function(err) {
-      reject(err);
-    });
-  }));
+  e.openWindow("https://bobpay.xyz/pay")
+  .catch(function(err) {
+    payment_request_resolver.reject(err);
+  })
 });
+
+self.addEventListener('message', listener = function(e) {
+  if (e.data == "payment_app_window_ready") {
+    sendPaymentRequest();
+    return;
+  }
+
+  if(e.data.methodName) {
+    payment_request_resolver.resolve(e.data);
+  } else {
+    payment_request_resolver.reject(e.data);
+  }
+});
+
+function sendPaymentRequest() {
+  // Note that the returned window_client from openWindow is not used since
+  // it might be changed by refreshing the opened page.
+  // Refer to https://www.w3.org/TR/service-workers-1/#clients-getall
+  let options = {
+    includeUncontrolled: false,
+    type: 'window'
+  };
+  clients.matchAll(options).then(function(clientList) {
+    for(var i = 0; i < clientList.length; i++) {
+      // Might do more communications or checks to make sure the message is
+      // posted to the correct window only.
+
+      // Copy the relevant data from the paymentrequestevent to
+      // send to the payment app confirmation page.
+      // Note that the entire PaymentRequestEvent can not be passed through
+      // postMessage directly since it can not be cloned.
+      clientList[i].postMessage(payment_request_event.total);
+    }
+  });
+}
+
+function PromiseResolver() {
+  /** @private {function(T=): void} */
+  this.resolve_;
+
+  /** @private {function(*=): void} */
+  this.reject_;
+
+  /** @private {!Promise<T>} */
+  this.promise_ = new Promise(function(resolve, reject) {
+    this.resolve_ = resolve;
+    this.reject_ = reject;
+  }.bind(this));
+}
+
+PromiseResolver.prototype = {
+  /** @return {!Promise<T>} */
+  get promise() {
+    return this.promise_;
+  },
+
+  /** @return {function(T=): void} */
+  get resolve() {
+    return this.resolve_;
+  },
+
+  /** @return {function(*=): void} */
+  get reject() {
+    return this.reject_;
+  },
+};
