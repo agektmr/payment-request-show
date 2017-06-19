@@ -27,8 +27,8 @@ self.addEventListener('message', listener = function(e) {
 });
 
 function sendPaymentRequest() {
-  // Note that we do not use the returned window_client through openWindow since
-  // it might changed by refreshing the opened page.
+  // Note that the returned window_client from openWindow is not used since
+  // it might be changed by refreshing the opened page.
   // Refer to https://www.w3.org/TR/service-workers-1/#clients-getall
   let options = {
     includeUncontrolled: false,
@@ -36,8 +36,8 @@ function sendPaymentRequest() {
   };
   clients.matchAll(options).then(function(clientList) {
     for(var i = 0; i < clientList.length; i++) {
-      // Might do additional communications or checks to make sure we are posting
-      // to right window.
+      // Might do more communications or checks to make sure the message is
+      // posted to the correct window only.
 
       // Copy the relevant data from the paymentrequestevent to
       // send to the payment app confirmation page.
