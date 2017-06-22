@@ -5,7 +5,7 @@ function addInstruments(registration) {
     {
       name: "My Bob Pay Account",
       icons: [{
-        src:"bobpay.png",
+        src:"/pay/bobpay.png",
         sizes:"32x32",
         type:"image/png"}
       ],
