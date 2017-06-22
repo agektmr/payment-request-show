@@ -28,6 +28,11 @@
         .invisible {
             display: none;
         }
+
+        .error-message {
+            color: red;
+            font-size: smaller;
+        }
     </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -38,16 +43,83 @@
     <![endif]-->
 
     <!-- Register Payment App SW -->
-    <script src="/pay/sw-bobpay-registration.js"></script>
     <script>
-        // Webpage controls for installing/removing the service worker.
-        navigator.serviceWorker.getRegistration('/pay/sw-bobpay.js').then(function(registration) {
-        var buttonText = registration ? 'Web App Installed &#9989;' : 'Install Web App';
+    /**
+     * Utilities for registering/unregistering the Payment App service worker.
+     */
+
+    const SERVICE_WORKER_URL = '/pay/sw-bobpay.js'
+
+    // Adds the BobPay default instrument.
+    function addInstruments(registration) {
+      const instrumentPromises = [
+      registration.paymentManager.instruments.set(
+        "c8126178-3bba-4d09-8f00-0771bcfd3b11",
+        {
+          name: "My Bob Pay Account",
+          icons: [{
+            src:"/pay/bobpay.png",
+            sizes:"32x32",
+            type:"image/png"}
+          ],
+          enabledMethods: ["https://emerald-eon.appspot.com/bobpay"]
+        })];
+
+      return Promise.all(instrumentPromises);
+    };
+
+    // Shows/hides the webpage controls for installing/removing the service
+    // worker.
+    function showBobPayStatus(enabled) {
+        showBobPayError("");
+        var buttonText = enabled ?
+                'Web App Installed &#9989;' : 'Install Web App';
         document.getElementById("installbutton").innerHTML = buttonText;
 
-        document.getElementById("installed").classList.toggle('invisible', !registration);
-        document.getElementById("notinstalled").classList.toggle('invisible', registration);
+        document.getElementById("installed").classList.toggle(
+                'invisible', !enabled);
+        document.getElementById("notinstalled").classList.toggle(
+                'invisible', enabled);
+    }
+
+    // Shows/clears an error related to the service worker installation.
+    function showBobPayError(errorMessage) {
+        document.getElementById('bobpayerror').innerHTML = errorMessage;
+    }
+
+    // Registers the payment app service worker by installing the default
+    // instruments.
+    function registerPaymentAppServiceWorker() {
+      navigator.serviceWorker.register(SERVICE_WORKER_URL).then(function(registration) {
+        if(!registration.paymentManager) {
+          // Payment app capability not available, unregister right away.
+          registration.unregister().then((success) => {});
+          showBobPayError('Payment app capability not present. Enable flags?');
+          return;
+        }
+
+        addInstruments(registration).then(function() {
+            showBobPayStatus(/*enabled=*/true);
         });
+      }).catch((error) => {
+        showBobPayError(error);
+      });
+    }
+
+    // Registers the payment app service worker by installing the default
+    // instruments.
+    function unregisterPaymentAppServiceWorker() {
+      navigator.serviceWorker.getRegistration(SERVICE_WORKER_URL).then(function(registration) {
+        registration.unregister().then((success) => {
+            showBobPayStatus(!success);
+        });
+    });
+    }
+
+    // When page is loaded, checks for the existence of the service worker.
+    navigator.serviceWorker.getRegistration(SERVICE_WORKER_URL).then(function(registration) {
+        showBobPayStatus(!!registration);
+    });
     </script>
 
 </head>
@@ -119,11 +191,12 @@
                     <br/>
                     <br/>
                     <p id="installed" class="invisible">
-                    &#9989; BobPay Web Payment App is installed.
+                    &#9989;&nbsp;&nbsp;&nbsp;BobPay Web Payment App is installed (<a href="https://github.com/madmath/payment-request-show/tree/master/bobpay/public/pay">see the source</a>). <a href="#uninstall" onclick="unregisterPaymentAppServiceWorker()"><img src="https://www.gstatic.com/images/icons/material/system/1x/delete_black_24dp.png"></a>
                     </p>
                     <p id="notinstalled" class="invisible">
-                    &#10060; BobPay Web Payment App is not installed.<br><a href="#installit" onclick="registerPaymentAppServiceWorker()">Click here to install</a>
+                    &#10060;&nbsp;&nbsp;&nbsp;BobPay Web Payment App is not installed <a href="https://github.com/madmath/payment-request-show/tree/master/bobpay/public/pay">(see the source)</a>. <a href="#installit" onclick="registerPaymentAppServiceWorker()"><img src="https://www.gstatic.com/images/icons/material/system/1x/cloud_download_black_24dp.png"></a>
                     </p>
+                    <p id="bobpayerror" class="error-message"></p>
                 </div>
             </div>
         </div>
