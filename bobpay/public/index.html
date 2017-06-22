@@ -24,6 +24,11 @@
 
     <!-- Theme CSS -->
     <link href="css/new-age.min.css" rel="stylesheet">
+    <style>
+        .invisible {
+            display: none;
+        }
+    </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -34,6 +39,16 @@
 
     <!-- Register Payment App SW -->
     <script src="/pay/sw-bobpay-registration.js"></script>
+    <script>
+        // Webpage controls for installing/removing the service worker.
+        navigator.serviceWorker.getRegistration('/pay/sw-bobpay.js').then(function(registration) {
+        var buttonText = registration ? 'Web App Installed &#9989;' : 'Install Web App';
+        document.getElementById("installbutton").innerHTML = buttonText;
+
+        document.getElementById("installed").classList.toggle('invisible', !registration);
+        document.getElementById("notinstalled").classList.toggle('invisible', registration);
+        });
+    </script>
 
 </head>
 
@@ -53,7 +68,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="page-scroll" href="#download">Download</a>
+                        <a class="page-scroll" href="#download">Download App</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" id="installbutton" href="#download">Loading...</a>
                     </li>
                 </ul>
             </div>
@@ -92,34 +110,24 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
-                    <h2 class="section-heading">Download BobPay</h2>
-                    <p>Download the source or the APK for BobPay</p>
+                    <h2 class="section-heading">Install BobPay</h2>
+                    <p>Download the source or the APK for BobPay (Native Payment App)</p>
                     <div class="badges">
-                        <a class="badge-link" href="https://drive.google.com/open?id=0B3xzZ-vFr2LRcjJKRXBQOHNqZ2c"><img src="img/google_drive.svg" alt="">Download</a>
+                        <a class="badge-link" href="https://drive.google.com/open?id=0B3xzZ-vFr2LRcjJKRXBQOHNqZ2c"><img src="img/google_drive.svg" alt="">Download</a>&nbsp;&nbsp;&nbsp;
+                        <a class="badge-link" href="https://docs.google.com/document/d/1izV4uC-tiRJG3JLooqY3YRLU22tYOsLTNq0P_InPJeE/edit"><img src="img/google_docs.svg" alt="">See documentation</a>
                     </div>
-                    </br>
-                    <p>See the documentation to build your Payment App</p>
-                    <div class="badges">
-                        <a class="badge-link" href="https://docs.google.com/document/d/1izV4uC-tiRJG3JLooqY3YRLU22tYOsLTNq0P_InPJeE/edit"><img src="img/google_docs.svg" alt="">See document</a>
-                    </div>
+                    <br/>
+                    <br/>
+                    <p id="installed" class="invisible">
+                    &#9989; BobPay Web Payment App is installed.
+                    </p>
+                    <p id="notinstalled" class="invisible">
+                    &#10060; BobPay Web Payment App is not installed.<br><a href="#installit" onclick="registerPaymentAppServiceWorker()">Click here to install</a>
+                    </p>
                 </div>
             </div>
         </div>
     </section>
-
-<!--     <section id="features" class="features">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="section-heading">
-                        <h2>Unlimited Features, Unlimited Fun</h2>
-                        <p class="text-muted">Check out what you can do with this app theme!</p>
-                        <hr>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
 
     <footer>
         <div class="container">

@@ -1,3 +1,8 @@
+/**
+ * Utilities for registering/unregistering the Payment App service worker.
+ */
+
+// Adds the BobPay default instrument.
 function addInstruments(registration) {
   const instrumentPromises = [
   registration.paymentManager.instruments.set(
@@ -16,11 +21,15 @@ function addInstruments(registration) {
   return Promise.all(instrumentPromises);
 };
 
-navigator.serviceWorker.register('/pay/sw-bobpay.js').then(function(registration) {
-  if(!registration.paymentManager) {
-    return;
-  }
-  addInstruments(registration);
-}).catch(function(error) {
-  alert("error: " + error);
-});
+// Registers the payment app service worker by installing the default
+// instruments.
+function registerPaymentAppServiceWorker() {
+  navigator.serviceWorker.register('/pay/sw-bobpay.js').then(function(registration) {
+    if(!registration.paymentManager) {
+      return;
+    }
+    addInstruments(registration);
+  }).catch(function(error) {
+    alert("error: " + error);
+  });
+}
