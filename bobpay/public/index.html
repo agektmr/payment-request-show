@@ -118,6 +118,18 @@
 
     // When page is loaded, checks for the existence of the service worker.
     navigator.serviceWorker.getRegistration(SERVICE_WORKER_URL).then(function(registration) {
+        if (registration) {
+            // BobPay service worker is installed.
+            if (registration.paymentManager) {
+                // Always update the installed service worker.
+                registration.update();
+            } else {
+                // Not supposed to have a BobPay service worker if there is no
+                // paymentManager available (feature is now off?). Remove the
+                // service worker.
+                unregisterPaymentAppServiceWorker();
+            }
+        }
         showBobPayStatus(!!registration);
     });
     </script>
