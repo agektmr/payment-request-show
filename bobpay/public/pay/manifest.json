@@ -1,0 +1,9 @@
+{
+  "name": "Pay with BobPay",
+  "short_name": "BobPay",
+  "icons": [{
+  	"src": "bobpay.png",
+  	"sizes": "32x32",
+  	"type": "image/png"
+  }]
+}
