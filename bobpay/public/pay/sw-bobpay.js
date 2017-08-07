@@ -7,10 +7,15 @@ self.addEventListener('paymentrequest', function(e) {
   payment_request_resolver = new PromiseResolver();
   e.respondWith(payment_request_resolver.promise);
 
-  e.openWindow("https://bobpay.xyz/pay")
-  .catch(function(err) {
-    payment_request_resolver.reject(err);
-  })
+  var url = "https://bobpay.xyz/pay";
+  // HACK. Ideally e.instrumentKey would be set. crbug.com/752835.
+  if (e.methodData[0].supportedMethods[0].indexOf('alipay') != -1)
+    url += "/alipay.html";
+
+  e.openWindow(url)
+    .catch(function(err) {
+      payment_request_resolver.reject(err);
+    })
 });
 
 self.addEventListener('message', listener = function(e) {

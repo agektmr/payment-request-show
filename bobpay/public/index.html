@@ -55,9 +55,22 @@
 
     // Adds the BobPay default instrument.
     function addInstruments(registration) {
-      const instrumentPromises = [
-      registration.paymentManager.instruments.set(
-        "c8126178-3bba-4d09-8f00-0771bcfd3b11",
+      if (document.getElementById('alipay').checked) {
+        return Promise.all([registration.paymentManager.instruments.set(
+        "c8126178-3bba-4d09-8f00-0771deadbeef",
+        {
+          name: "AliPay (via BobPay)",
+          icons: [{
+            src:"https://i.alipayobjects.com/common/favicon/favicon.ico",
+            sizes:"32x32",
+            type:"image/png"}
+          ],
+          enabledMethods: ["https://www.alipay.com/webpay"]
+        })]);
+      }
+
+      return Promise.all([registration.paymentManager.instruments.set(
+        "dc2de27a-ca5e-4fbd-883e-b6ded6c69d4f",
         {
           name: "My Bob Pay Account",
           icons: [{
@@ -66,9 +79,7 @@
             type:"image/png"}
           ],
           enabledMethods: ["https://emerald-eon.appspot.com/bobpay"]
-        })];
-
-      return Promise.all(instrumentPromises);
+        })]);
     };
 
     // Shows/hides the webpage controls for installing/removing the service
@@ -211,6 +222,7 @@
                     <p id="notinstalled" class="invisible">
                     &#10060;&nbsp;&nbsp;&nbsp;BobPay Web Payment App is not installed <a href="https://github.com/madmath/payment-request-show/tree/master/bobpay/public/pay">(see the source)</a>. <a href="#installit" onclick="registerPaymentAppServiceWorker()"><img src="https://www.gstatic.com/images/icons/material/system/1x/cloud_download_black_24dp.png"></a>
                     </p>
+                    <input id="alipay" type="checkbox" value="">AliPay</label>
                     <p id="bobpayerror" class="error-message"></p>
                 </div>
             </div>
