@@ -13,6 +13,10 @@ self.addEventListener('paymentrequest', function(e) {
     url += "/alipay.html";
 
   e.openWindow(url)
+    .then(window_client => {
+      if(window_client == null)
+        payment_request_resolver.reject('Failed to open window');
+    })
     .catch(function(err) {
       payment_request_resolver.reject(err);
     })
