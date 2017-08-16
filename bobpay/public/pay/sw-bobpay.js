@@ -8,6 +8,10 @@ self.addEventListener('paymentrequest', function(e) {
   e.respondWith(payment_request_resolver.promise);
 
   e.openWindow("https://bobpay.xyz/pay")
+  .then(window_client => {
+    if(window_client == null)
+      payment_request_resolver.reject('failed to open window');
+  })
   .catch(function(err) {
     payment_request_resolver.reject(err);
   })
