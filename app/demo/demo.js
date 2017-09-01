@@ -273,15 +273,17 @@ class DemoController {
   }
 
   canMakePaymentClick() {
-    var paymentRequest = this._createPaymentRequest();
+    const paymentRequest = this._createPaymentRequest();
+    const cmpResultContainer =
+        document.querySelector('.can-make-payment-result-container pre');
 
     paymentRequest.canMakePayment()
     .then((result) => {
-      const cmpResultContainer =
-        document.querySelector('.can-make-payment-result-container pre');
       cmpResultContainer.textContent = JSON.stringify(result, null, 2);
     })
     .catch((err) => {
+      cmpResultContainer.textContent = err.message;
+
       console.group(
         'The promise from `paymentRequest.canMakePayment()` was rejected.');
       console.warn(`The error message received was: '${err.message}'`);
