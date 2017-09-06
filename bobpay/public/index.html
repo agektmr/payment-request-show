@@ -55,6 +55,7 @@
 
     // Adds the BobPay default instrument.
     function addInstruments(registration) {
+      registration.paymentManager.userHint = "test@bobpay.xyz";
       if (document.getElementById('alipay').checked) {
         return Promise.all([registration.paymentManager.instruments.set(
         "c8126178-3bba-4d09-8f00-0771deadbeef",
