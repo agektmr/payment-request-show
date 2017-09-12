@@ -1,6 +1,10 @@
 let payment_request_event = undefined;
 let payment_request_resolver = undefined;
 
+self.addEventListener('canmakepayment', function(e) {
+  e.respondWith(true);
+});
+
 self.addEventListener('paymentrequest', function(e) {
   payment_request_event = e;
 
