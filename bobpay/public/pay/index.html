@@ -41,15 +41,26 @@
     function pay() {
       if(!paymentRequestClient) return;
 
-      var paymentAppResponse = {
-        methodName: "https://emerald-eon.appspot.com/bobpay",
-        details: {
-          id: "123456"
-        }
-      };
+      var authn = new WebAuthnTransaction();
 
-      paymentRequestClient.postMessage(paymentAppResponse);
-      window.close();
+      authn.authenticate()
+        .then(() => {
+          var paymentAppResponse = {
+            methodName: "https://emerald-eon.appspot.com/bobpay",
+            details: {
+              id: "123456"
+            }
+          };
+
+          paymentRequestClient.postMessage(paymentAppResponse);
+          window.close();
+        })
+        .catch((e) => {
+          // TODO: need to think about the error path here: retry? fail payment?
+          console.log ("Authentication failed");
+          console.log (e);
+          throw e;
+        });
     }
 
     function cancel() {
