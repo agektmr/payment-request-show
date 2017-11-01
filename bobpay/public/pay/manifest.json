@@ -2,8 +2,8 @@
   "name": "Pay with BobPay",
   "short_name": "BobPay",
   "icons": [{
-  	"src": "bobpay.png",
-  	"sizes": "32x32",
+  	"src": "tree.png",
+  	"sizes": "48x48",
   	"type": "image/png"
   }],
   "prefer_related_applications": true,
