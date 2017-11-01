@@ -12,7 +12,9 @@ self.addEventListener('paymentrequest', function(e) {
   e.respondWith(payment_request_resolver.promise);
 
   var url = "https://bobpay.xyz/pay";
-  // HACK. Ideally e.instrumentKey would be set. crbug.com/752835.
+  // The methodData here represents what the merchant supports. We could have a
+  // payment selection screen, but for this simple demo if we see alipay in the list
+  // we send the user through the alipay flow.
   if (e.methodData[0].supportedMethods[0].indexOf('alipay') != -1)
     url += "/alipay.html";
 
