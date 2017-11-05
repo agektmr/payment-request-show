@@ -225,6 +225,14 @@
                     </p>
                     <input id="alipay" type="checkbox" value="">AliPay</label>
                     <p id="bobpayerror" class="error-message"></p>
+                    <br>
+                    <br>
+                    <h2 class="section-heading">Setup FIDO / WebAuthn</h2>
+                    <span>
+                        WebAuthn:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="#webauthn-register" onclick="new WebAuthnTransaction().register()">Register <img src="https://www.gstatic.com/images/icons/material/system/1x/cloud_download_black_24dp.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="#webauthn-register" onclick="new FidoLocalStorage().deleteAll()">Delete All <img src="https://www.gstatic.com/images/icons/material/system/1x/delete_black_24dp.png"></a>
+                    </span>
                 </div>
             </div>
         </div>
@@ -247,6 +255,10 @@
 
     <!-- Theme JavaScript -->
     <script src="js/new-age.min.js"></script>
+
+    <!-- FIDO / WebAuthn Library -->
+    <!-- TODO: update URL when development is mature -->
+    <script src="https://rawgit.com/apowers313/fido-local-server/master/fido-local-server.js"></script>
 
 </body>
 
