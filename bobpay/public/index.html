@@ -26,7 +26,7 @@
     <link href="css/new-age.min.css" rel="stylesheet">
     <style>
         .invisible {
-            display: none;
+            display: none !important;
         }
 
         .error-message {
@@ -56,20 +56,6 @@
     // Adds the BobPay default instrument.
     function addInstruments(registration) {
       registration.paymentManager.userHint = "test@bobpay.xyz";
-      if (document.getElementById('alipay').checked) {
-        return Promise.all([registration.paymentManager.instruments.set(
-        "c8126178-3bba-4d09-8f00-0771deadbeef",
-        {
-          name: "AliPay (via BobPay)",
-          icons: [{
-            src:"https://i.alipayobjects.com/common/favicon/favicon.ico",
-            sizes:"32x32",
-            type:"image/png"}
-          ],
-          enabledMethods: ["https://www.alipay.com/webpay"]
-        })]);
-      }
-
       return Promise.all([registration.paymentManager.instruments.set(
         "dc2de27a-ca5e-4fbd-883e-b6ded6c69d4f",
         {
@@ -186,7 +172,7 @@
                     <div class="header-content">
                         <div class="header-content-inner">
                             <h1>BobPay is a sample payment app that works with Payment Request API</h1>
-                            <a href="#download" class="btn btn-outline btn-xl page-scroll">Download the source</a>
+                            <a href="#download" class="btn btn-outline btn-xl page-scroll">Learn more</a>
                         </div>
                     </div>
                 </div>
@@ -207,25 +193,25 @@
 
     <section id="download" class="download bg-secondary text-center">
         <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                    <h2 class="section-heading">Install BobPay</h2>
-                    <p>Download the source or the APK for BobPay (Native Payment App)</p>
-                    <div class="badges">
-                        <a class="badge-link" href="https://drive.google.com/open?id=0B3xzZ-vFr2LRcjJKRXBQOHNqZ2c"><img src="img/google_drive.svg" alt="">Download</a>&nbsp;&nbsp;&nbsp;
-                        <a class="badge-link" href="https://docs.google.com/document/d/1izV4uC-tiRJG3JLooqY3YRLU22tYOsLTNq0P_InPJeE/edit"><img src="img/google_docs.svg" alt="">See documentation</a>
-                    </div>
-                    <br/>
-                    <br/>
-                    <p id="installed" class="invisible">
-                    &#9989;&nbsp;&nbsp;&nbsp;BobPay Web Payment App is installed (<a href="https://github.com/madmath/payment-request-show/tree/master/bobpay/public/pay">see the source</a>). <a href="#uninstall" onclick="unregisterPaymentAppServiceWorker()"><img src="https://www.gstatic.com/images/icons/material/system/1x/delete_black_24dp.png"></a>
-                    </p>
-                    <p id="notinstalled" class="invisible">
-                    &#10060;&nbsp;&nbsp;&nbsp;BobPay Web Payment App is not installed <a href="https://github.com/madmath/payment-request-show/tree/master/bobpay/public/pay">(see the source)</a>. <a href="#installit" onclick="registerPaymentAppServiceWorker()"><img src="https://www.gstatic.com/images/icons/material/system/1x/cloud_download_black_24dp.png"></a>
-                    </p>
-                    <input id="alipay" type="checkbox" value="">AliPay</label>
-                    <p id="bobpayerror" class="error-message"></p>
+            <div class="row badges text-left">
+                <div class="col-md-6">
+                    <h3 class="text-center">Bobpay native payment app</h3>
+                    <p class="badge-link"><img src="img/download.svg" alt="">&nbsp;<a href="https://drive.google.com/open?id=0B3xzZ-vFr2LRTHVtNnItZmlGZzQ">Download the APK</a</p>
+                    <p class="badge-link"><img src="img/source.svg" alt="">&nbsp;<a href="https://drive.google.com/open?id=0B3xzZ-vFr2LRSGVlN2o1bXBLODg">See the source code</a></p>
+                    <p class="badge-link"><img src="img/google_docs.svg" alt="">&nbsp;<a href="https://docs.google.com/document/d/1izV4uC-tiRJG3JLooqY3YRLU22tYOsLTNq0P_InPJeE/edit">Learn how to build your own native payment app</a></p>
                 </div>
+                <div class="col-md-6">
+                    <h3 class="text-center">Bobpay web payment app</h3>
+                    <p id="installed" class="badge-link invisible"><img src="img/uninstall.svg" alt="">&nbsp;<a href="#uninstall" onclick="unregisterPaymentAppServiceWorker()">
+                    Uninstall BobPay Web Payment App</a>
+                    </p>
+                    <p id="notinstalled" class="badge-link invisible"><img src="img/download.svg" alt="">&nbsp;<a href="#installit" onclick="registerPaymentAppServiceWorker()">
+                    Install BobPay Web Payment App</a>
+                    </p>
+                    <p class="badge-link"><img src="img/source.svg" alt="">&nbsp;<a href="https://github.com/madmath/payment-request-show/tree/master/bobpay/public/pay">See the source code</a></p>
+                    <p class="badge-link"><img src="img/google_docs.svg" alt="">&nbsp;<a href="https://docs.google.com/document/d/1wM9b3szNH4-w0tpIefjLYSGNtyjLr31Q4ARNTB52bJ0/edit">Learn how to build your own web based payment app.</a></p>
+                </div>
+                <p id="bobpayerror" class="error-message"></p>
             </div>
         </div>
     </section>
