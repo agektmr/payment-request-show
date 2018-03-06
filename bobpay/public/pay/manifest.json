@@ -6,6 +6,10 @@
   	"sizes": "48x48",
   	"type": "image/png"
   }],
+  "serviceworker": {
+    "src": "sw-bobpay.js",
+    "use_cache": false
+  },
   "prefer_related_applications": true,
   "related_applications": [{
   	"platform": "play",
