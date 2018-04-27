@@ -58,7 +58,10 @@ function sendPaymentRequest() {
       // send to the payment app confirmation page.
       // Note that the entire PaymentRequestEvent can not be passed through
       // postMessage directly since it can not be cloned.
-      clientList[i].postMessage(payment_request_event.total);
+      clientList[i].postMessage({
+        total: payment_request_event.total,
+        methodData: payment_request_event.methodData,
+      });
     }
   });
 }
