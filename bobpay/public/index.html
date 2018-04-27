@@ -56,17 +56,29 @@
     // Adds the BobPay default instrument.
     function addInstruments(registration) {
       registration.paymentManager.userHint = "test@bobpay.xyz";
-      return Promise.all([registration.paymentManager.instruments.set(
-        "dc2de27a-ca5e-4fbd-883e-b6ded6c69d4f",
-        {
-          name: "My Bob Pay Account",
-          icons: [{
-            src:"/pay/bobpay.png",
-            sizes:"32x32",
-            type:"image/png"}
-          ],
-          method: "https://emerald-eon.appspot.com/bobpay"
-        })]);
+      return Promise.all([
+        registration.paymentManager.instruments.set(
+            "dc2de27a-ca5e-4fbd-883e-b6ded6c69d4f",
+            {
+              name: "My Bob Pay Account",
+              icons: [{
+                src:"/pay/bobpay.png",
+                sizes:"32x32",
+                type:"image/png"}
+              ],
+              method: "https://emerald-eon.appspot.com/bobpay"
+            }),
+        registration.paymentManager.instruments.set(
+            "new-card",
+            {
+                name: "Add a new card to BobPay",
+                method: "basic-card",
+                capabilities: {
+                    supportedNetworks: ["visa", "mastercard", "amex", "discover"],
+                    supportedTypes: ["credit", "debit", "prepaid"]
+                }
+            }),
+      ]);
     };
 
     // Shows/hides the webpage controls for installing/removing the service

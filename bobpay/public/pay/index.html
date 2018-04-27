@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,57 +7,96 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <!-- Custom Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
 
     <!-- Theme CSS -->
     <link href="/css/new-age.min.css" rel="stylesheet">
+    <style>
+      #content-container {
+        padding-bottom: 60px;
+      }
+
+      #footer .container {
+        height: 50px;
+        text-align: center;
+        padding-top: 7px;
+      }
+
+      .cc-icons {
+        display: inline-block;
+      }
+
+      .cc-numbers {
+        display: inline-block;
+        margin-left: 10px;
+      }
+    </style>
   </head>
-
   <body>
-      <div class="container">
-          <h1>Welcome to the BobPay Payment Handler</h1>
-          <h3>Here are some (not all) of the details we got</h3>
-          <pre style="white-space: pre-wrap;" id="details"></pre>
+    <div class="container" id="content-container">
+      <h2>Choose how to pay with BobPay</h2>
+      <div class="list-group" id="payment-instrument-list">
       </div>
-
-      <div class="container">
-        <button id="pay" type="button" class="btn btn-primary" onclick="pay()">Pay</button>
-        <button id="cancel" type="button" class="btn btn-default" onclick="cancel()">Cancel</button>
+      <div id="detailsContainer" class="collapse">
+        <pre style="white-space: pre-wrap;" id="details"></pre>
       </div>
+    </div>
 
-    <script>
-    let paymentRequestClient;
+    <!-- CVC unmask modal -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="cvc-confirm-modal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Enter this card's CVC</h4>
+          </div>
 
-    navigator.serviceWorker.addEventListener('message', e => {
-      paymentRequestClient = e.source;
-      document.getElementById('details').innerHTML = JSON.stringify(e.data, undefined, 2);
-    });
-    navigator.serviceWorker.controller.postMessage('payment_app_window_ready');
+          <div class="modal-body">
+            <input type="text" id="cvc-confirm-field"></input>
+          </div>
 
-    function pay() {
-      if(!paymentRequestClient) return;
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="cvc-confirm-button">Pay</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
-      var paymentAppResponse = {
-        methodName: "https://emerald-eon.appspot.com/bobpay",
-        details: {
-          id: "123456"
-        }
-      };
+    <!-- Add Card Modal -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="add-card-modal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Add a credit card</h4>
+          </div>
+          <div class="modal-body">
+            <input type="text" id="full-name" placeholder="Full Name"></input>
+            <input type="text" id="cc-number" placeholder="4111 1111 1111 1111"></input>
+            <input type="month" id="exp-date"></input>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="add-card-confirm-button" onclick="addCardConfirmed()">Confirm</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
-      paymentRequestClient.postMessage(paymentAppResponse);
-      window.close();
-    }
-
-    function cancel() {
-      if(!paymentRequestClient) return;
-
-      paymentRequestClient.postMessage("The payment request is cancelled by user");
-      window.close();
-    }
-    </script>
+    <div class="navbar navbar-default navbar-fixed-bottom" id="footer">
+        <div class="container">
+          <a class="btn" role="button" data-toggle="collapse" href="#detailsContainer">Details</a>
+          <button id="cancel" type="button" class="btn btn-default">Cancel</button>
+        </div>
+    </div>
+    <script type="text/javascript" src="bundled-card-validator.js"></script>
   </body>
 </html>
