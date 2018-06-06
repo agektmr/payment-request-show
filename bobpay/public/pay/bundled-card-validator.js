@@ -53,10 +53,10 @@ function populatePaymentInstrumentsList() {
     listNode.removeChild(listNode.lastChild);
   }
 
-  if (methodData.some(method => method["supportedMethods"].includes("https://emerald-eon.appspot.com/bobpay"))) {
+  if (methodData.some(method => method["supportedMethods"].includes("https://bobpay.xyz/pay"))) {
     // This merchant supports bobpay, offer bobpay balance as an option
     var label = document.createElement("h4");
-    label.innerHTML = "Pay with BobPay balance";
+    label.innerHTML = "Pay with BobPay balance ($50.00)";
     addToInstrumentList(label, payWithBobPayBalance);
   }
 
