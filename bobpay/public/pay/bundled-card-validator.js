@@ -143,9 +143,10 @@ function payWithBobPayBalance() {
   if(!paymentRequestClient) return;
 
   var paymentAppResponse = {
-    methodName: "https://emerald-eon.appspot.com/bobpay",
+    methodName: "https://bobpay.xyz/pay",
     details: {
-      id: "123456"
+      bobpay_token_id: "ABCDEADBEEF",
+      message: "Thanks for using BobPay!"
     }
   };
 
