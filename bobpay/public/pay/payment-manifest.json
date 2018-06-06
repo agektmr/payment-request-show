@@ -1,0 +1,4 @@
+{
+  "default_applications": ["https://bobpay.xyz/pay/manifest.json"],
+  "supported_origins": ["https://bobpay.xyz", "https://webauthn.org", "https://webauthn.org:8443", "https://webauthn.org:8000", "https://webauthn05.noknoktest.com:8443", "https://gogerald.github.io", "https://upay.noknoktest.com", "https://rsolomakhin.github.io"]
+}
