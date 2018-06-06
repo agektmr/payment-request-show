@@ -7,7 +7,7 @@ let app = express();
 app.use(function(req, res, next) {
   res.status(200).links({
     'payment-method-manifest':
-        'https://rsolomakhin.github.io/bobpay/payment-manifest.json',
+        'https://bobpay.xyz/pay/payment-manifest.json',
     });
     return next();
 });
