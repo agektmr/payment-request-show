@@ -12,8 +12,12 @@
   },
   "prefer_related_applications": true,
   "related_applications": [{
-  	"platform": "play",
-  	"url": "https://play.google.com/store/apps/details?id=com.bobpay",
-  	"id": "com.bobpay"
+      "platform": "play",
+      "id": "com.bobpay",
+      "min_version": "1",
+      "fingerprints": [{
+          "type": "sha256_cert",
+          "value": "92:5A:39:05:C5:B9:EA:BC:71:48:5F:F2:05:0A:1E:57:5F:23:40:E9:E3:87:14:EC:6D:A2:04:21:E0:FD:3B:D1"
+      }]
   }]
 }
