@@ -4,10 +4,15 @@
   "description": "Payment Request API demo site.",
   "scripts": {
     "lint": "eslint '.'",
-    "gulp": "gulp generate-service-worker"
+    "start": "node app.js",
+    "gcp-build": "gulp generate-service-worker"
+  },
+  "dependencies": {
+    "express": "^4.16.3"
   },
   "license": "Apache-2.0",
   "devDependencies": {
+    "@google-cloud/nodejs-repo-tools": "^3.3.0",
     "eslint": ">4.18.2",
     "eslint-config-google": "^0.7.1",
     "gulp": "^3.9.1",
